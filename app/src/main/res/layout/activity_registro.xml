@@ -42,7 +42,7 @@
             android:id="@+id/tvLogo1"
             android:gravity="right"
             android:textColor="@color/colorAccent"
-            android:textSize="60dp" />
+            android:textSize="30dp" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -50,59 +50,10 @@
             android:text="car"
             android:layout_weight="1.1"
             android:id="@+id/tvLogo2"
-            android:textSize="60dp"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textSize="30dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textIsSelectable="false" />
     </LinearLayout>
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/login_msg"
-        android:id="@+id/loginHint"
-        android:paddingBottom="20dp"
-        android:gravity="center"
-        android:textColor="@color/colorPrimaryDark"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1.5"
-        android:padding="@dimen/activity_horizontal_margin_no_padding"
-        android:layout_marginLeft="130dp"
-        android:layout_marginRight="130dp">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/iv_facebook"
-            android:src="@mipmap/ic_facebook"
-            android:layout_weight="0.5"
-            android:layout_gravity="center_horizontal" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/iv_google"
-            android:layout_weight="0.5"
-            android:src="@mipmap/ic_google"
-            android:layout_gravity="center_horizontal" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/iv_twitter"
-            android:layout_weight="0.5"
-            android:src="@mipmap/ic_twitter"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="O"
-        android:gravity="center"
-        android:textColor="@color/colorPrimaryDark"/>
 
     <ScrollView
         android:id="@+id/login_form"
@@ -119,11 +70,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
-                    android:id="@+id/email"
+                <EditText
+                    android:id="@+id/nombres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_user"
+                    android:hint="@string/prompt_nombres"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/apellidos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_apellidos"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/correo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_correo"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/cedula"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_cedula"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:inputType="text" />
@@ -135,29 +128,60 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/placa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:hint="@string/prompt_placa"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_usuario"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/clave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_clave"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/clave_confirmacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_clave_confirmacion"
+                    android:imeActionId="@+id/btn_registrar"
+                    android:imeActionLabel="@string/btn_registrar"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
-                <Button
-                    android:id="@+id/email_sign_in_button"
-                    android:layout_width="wrap_content"
-                    android:background="@drawable/ripple_white"
-                    android:layout_height="35dp"
-                    android:layout_marginBottom="80dp"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:text="@string/olvido_su_clave"
-                    android:textAllCaps="false"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp" />
         </LinearLayout>
     </ScrollView>
     <LinearLayout
@@ -173,7 +197,7 @@
             android:layout_height="fill_parent"
             android:text="@string/login"
             android:layout_weight="1"
-            android:id="@+id/button"
+            android:id="@+id/goLogin"
             android:padding="@dimen/activity_vertical_margin_no_padding"
             android:layout_margin="0dp"
             android:minHeight="0dp"
@@ -183,13 +207,12 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/registrar"
+            android:text="@string/btn_registrar"
             android:layout_weight="1"
             android:id="@+id/button2"
             android:padding="@dimen/activity_horizontal_margin_no_padding"
             android:layout_margin="0dp"
-            android:onClick="goRegistrar"
-           android:background="@drawable/ripple"
+            android:background="@drawable/ripple"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

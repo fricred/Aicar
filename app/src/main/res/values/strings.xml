@@ -17,4 +17,16 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Strings to registro  -->
+    <string name="prompt_nombres">Nombres</string>
+    <string name="prompt_apellidos">Apellidos</string>
+    <string name="prompt_correo">Email</string>
+    <string name="prompt_placa">Placa Vehiculo</string>
+    <string name="prompt_usuario">Usuario</string>
+    <string name="prompt_clave">Clave</string>
+    <string name="prompt_cedula"># Cedula</string>
+    <string name="prompt_clave_confirmacion">Confirmar Clave</string>
+    <string name="btn_registrar">Registrar</string>
+
 </resources>
