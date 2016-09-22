@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Aicar</string>
+    <string name="app_name_pt1">Ai</string>
+    <string name="app_name_pt2">car</string>
+    <string name="or">O</string>
 
     <!-- Strings related to login -->
     <string name="prompt_user">Usuario</string>
@@ -28,5 +31,8 @@
     <string name="prompt_cedula"># Cedula</string>
     <string name="prompt_clave_confirmacion">Confirmar Clave</string>
     <string name="btn_registrar">Registrar</string>
+    <string name="facebook">facebook</string>
+    <string name="google_plus">Google Plus</string>
+    <string name="twitter">twitter</string>
 
 </resources>

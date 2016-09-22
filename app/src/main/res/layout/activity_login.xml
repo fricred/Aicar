@@ -33,25 +33,27 @@
         android:orientation="horizontal"
         android:weightSum="2"
         android:paddingBottom="30dp">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Ai"
+            android:text="@string/app_name_pt1"
             android:layout_weight="0.9"
             android:id="@+id/tvLogo1"
-            android:gravity="right"
+            android:gravity="end"
             android:textColor="@color/colorAccent"
-            android:textSize="60dp" />
+            android:textSize="60sp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="car"
+            android:text="@string/app_name_pt2"
             android:layout_weight="1.1"
             android:id="@+id/tvLogo2"
-            android:textSize="60dp"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="60sp" />
     </LinearLayout>
     <TextView
         android:layout_width="fill_parent"
@@ -78,7 +80,8 @@
             android:id="@+id/iv_facebook"
             android:src="@mipmap/ic_facebook"
             android:layout_weight="0.5"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/facebook" />
 
         <ImageView
             android:layout_width="0dp"
@@ -86,7 +89,8 @@
             android:id="@+id/iv_google"
             android:layout_weight="0.5"
             android:src="@mipmap/ic_google"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/google_plus" />
 
         <ImageView
             android:layout_width="0dp"
@@ -94,13 +98,14 @@
             android:id="@+id/iv_twitter"
             android:layout_weight="0.5"
             android:src="@mipmap/ic_twitter"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/twitter" />
     </LinearLayout>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="O"
+        android:text="@string/or"
         android:gravity="center"
         android:textColor="@color/colorPrimaryDark"/>
 
@@ -125,7 +130,6 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_user"
                     android:maxLines="1"
-                    android:singleLine="true"
                     android:inputType="text" />
 
             </android.support.design.widget.TextInputLayout>
@@ -144,7 +148,7 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                     />
 
             </android.support.design.widget.TextInputLayout>
                 <Button
@@ -172,6 +176,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:text="@string/login"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_weight="1"
             android:id="@+id/button"
             android:padding="@dimen/activity_vertical_margin_no_padding"
@@ -185,6 +190,7 @@
             android:layout_height="match_parent"
             android:text="@string/registrar"
             android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/button2"
             android:padding="@dimen/activity_horizontal_margin_no_padding"
             android:layout_margin="0dp"
