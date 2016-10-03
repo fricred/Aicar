@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -27,7 +26,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -387,7 +385,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     /** Called when the user clicks the Send button */
     public void goRegistrar(View view) {
-        Intent intent = new Intent(this, RegistroActivity.class);
+        Intent intent = new Intent(this, ActivitySocialSignUp.class);
         startActivity(intent);
     }
 
