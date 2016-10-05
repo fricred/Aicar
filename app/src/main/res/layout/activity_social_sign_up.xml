@@ -37,7 +37,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnFacebook"
         android:onClick="goRegistrarFb" />
-
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <Button
         android:text="@string/google_plus"
         android:layout_width="match_parent"
