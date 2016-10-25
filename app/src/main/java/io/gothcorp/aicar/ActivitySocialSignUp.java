@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -27,11 +29,23 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.models.User;
+import com.twitter.sdk.android.core.services.AccountService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+
+import retrofit2.Call;
 
 public class ActivitySocialSignUp extends AppCompatActivity  implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -40,6 +54,8 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    private TwitterLoginButton loginButtonTwitter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +106,55 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
         signInButton.setScopes(gso.getScopeArray());
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
+        loginButtonTwitter = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
+        loginButtonTwitter.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                // The TwitterSession is also available through:
+                // Twitter.getInstance().core.getSessionManager().getActiveSession()
+                TwitterSession session = result.data;
+                // TODO: Remove toast and use the TwitterSession's userID
+                // with your app's user model
+                Twitter          twitter = Twitter.getInstance();
+                TwitterApiClient api     = twitter.core.getApiClient(session);
+                AccountService service = api.getAccountService();
+                Call<User> user    = service.verifyCredentials(true, true);
+
+                user.enqueue(new Callback<User>()
+                {
+                    @Override
+                    public void success(Result<User> userResult)
+                    {
+
+
+                        String name = userResult.data.name;
+                        String email = userResult.data.email;
+                        JSONObject object = new JSONObject();
+                        try {
+                            object.put("first_name",name);
+                            object.put("username",userResult.data.screenName);
+                            object.put("last_name","");
+                            object.put("email",email!= null ? email :" ");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        goRegistrarWithFacebook(object);
+                    }
+
+                    @Override
+                    public void failure(TwitterException exc)
+                    {
+                        Log.d("TwitterKit", "Verify Credentials Failure", exc);
+                    }
+                });
+            }
+            @Override
+            public void failure(TwitterException exception) {
+                Log.d("TwitterKit", "Login with Twitter failure", exception);
+            }
+        });
+
+
     }
 
     @Override
@@ -112,7 +177,13 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
+        // Make sure that the loginButton hears the result from any
+        // Activity that it triggered.
+        loginButtonTwitter.onActivityResult(requestCode, resultCode, data);
     }
+
+
+
 
     /**
      * Called when the user clicks the Send button
@@ -278,6 +349,8 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     public void onConnected(Bundle bundle) {
         Log.d("Connected", "Connected");
     }
+
+
 
 
 

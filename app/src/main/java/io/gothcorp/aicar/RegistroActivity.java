@@ -17,6 +17,7 @@ public class RegistroActivity extends AppCompatActivity {
     private EditText nombres;
     private EditText apellidos;
     private EditText email;
+    private EditText username;
     JSONObject fbObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class RegistroActivity extends AppCompatActivity {
         nombres = (EditText) findViewById(R.id.nombres);
         apellidos = (EditText) findViewById(R.id.apellidos);
         email = (EditText) findViewById(R.id.correo);
+        username= (EditText) findViewById(R.id.username);
         loadFromFb();
     }
 
@@ -68,7 +70,9 @@ public class RegistroActivity extends AppCompatActivity {
             if(fbObject!= null){
                 nombres.setText(fbObject.get("first_name").toString());
                 apellidos.setText(fbObject.get("last_name").toString());
-                email.setText(fbObject.get("email").toString());
+                email.setText(fbObject.get("email")!= null ? fbObject.get("email").toString():"");
+                username.setText(fbObject.get("username").toString());
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
