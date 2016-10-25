@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "750832419877",
+    "project_id": "firebase-aicar"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750832419877:android:8c1ce8ace2822508",
+        "android_client_info": {
+          "package_name": "io.gothcorp.aicar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750832419877-fpqoksgg4q2ckf45t0jats04mc2rb3s1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.gothcorp.aicar",
+            "certificate_hash": "68E35D146EA26D732AE4D5ACF86F83074AC05778"
+          }
+        },
+        {
+          "client_id": "750832419877-g1hq49ce8ovqjt4v38k3n7dg0gteav58.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBerrb29eNnybQ6hTEcelku4JI6oBE29vQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
