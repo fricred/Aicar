@@ -13,10 +13,13 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_email">La direccion de correo es invalida</string>
+    <string name="error_invalid_password">La contraseña es demasiado corta</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="error_campo_numerico">Debe ingresar solo numeros</string>
+    <string name="error_field_placa_invalid">Numero de placa invalido (ej: ABC123)</string>
+    <string name="error_field_no_match">Los campos no coinciden</string>
+    <string name="error_field_required">Este campo es requerido</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -41,6 +44,7 @@
     <string name="crear_cuenta">Crear una cuenta</string>
     <string name="login_text">Login</string>
     <string name="logout_text">Logout</string>
+    <string name="aceptar_lbl">Aceptar</string>
 
     <!-- Facebook api-->
     <string name="facebook_app_id">153076308481203</string>

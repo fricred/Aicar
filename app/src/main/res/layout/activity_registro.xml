@@ -6,6 +6,7 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:weightSum="2"
+    android:background="@color/White"
     android:paddingBottom="@dimen/activity_vertical_margin_no_padding"
     android:paddingLeft="@dimen/activity_horizontal_margin_no_padding"
     android:paddingRight="@dimen/activity_horizontal_margin_no_padding"
@@ -14,7 +15,7 @@
 
     <!-- Login progress -->
     <ProgressBar
-        android:id="@+id/login_progress"
+        android:id="@+id/register_progress"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,10 +23,6 @@
         android:visibility="gone"
         android:gravity = "center_vertical|center_horizontal"
         android:layout_gravity="center_vertical|center_horizontal" />
-
-
-
-
     <LinearLayout
         android:id="@+id/logo"
         android:layout_width="match_parent"
@@ -59,7 +56,7 @@
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/registro_form"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
@@ -79,7 +76,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_nombres"
                     android:maxLines="1"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:nextFocusDown="@+id/apellidos" />
 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -92,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_apellidos"
                     android:maxLines="1"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:nextFocusDown="@id/email" />
 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -105,7 +104,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_correo"
                     android:maxLines="1"
-                    android:inputType="text" />
+                    android:inputType="textEmailAddress"
+                    android:nextFocusDown="@+id/cedula" />
 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -118,7 +118,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_cedula"
                     android:maxLines="1"
-                    android:inputType="text" />
+                    android:inputType="number"
+                    android:nextFocusDown="@+id/placa" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -132,7 +133,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_placa"
                     android:maxLines="1"
-                    android:inputType="text" />
+                    android:maxLength="6"
+                    android:inputType="textCapCharacters"
+                    android:nextFocusDown="@+id/username" />
 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -145,7 +148,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_usuario"
                     android:maxLines="1"
-                    android:inputType="text" />
+                    android:inputType="textCapCharacters"
+                    android:nextFocusDown="@+id/clave" />
 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -159,7 +163,7 @@
                     android:hint="@string/prompt_clave"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    />
+                    android:nextFocusDown="@+id/clave_confirmacion" />
 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -173,7 +177,7 @@
                     android:hint="@string/prompt_clave_confirmacion"
                     android:imeActionId="@+id/btn_registrar"
                     android:imeActionLabel="@string/btn_registrar"
-                    android:imeOptions="actionUnspecified"
+                    android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     />
@@ -181,39 +185,6 @@
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </ScrollView>
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        android:padding="@dimen/activity_horizontal_margin_no_padding">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:text="@string/login"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_weight="1"
-            android:id="@+id/goLogin"
-            android:padding="@dimen/activity_vertical_margin_no_padding"
-            android:layout_margin="0dp"
-            android:minHeight="0dp"
-            android:textColor="@color/White"
-            android:minWidth="0dp"
-            android:background="@drawable/ripple_primary"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="@string/btn_registrar"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_weight="1"
-            android:id="@+id/button2"
-            android:padding="@dimen/activity_horizontal_margin_no_padding"
-            android:layout_margin="0dp"
-            android:background="@drawable/ripple"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
 
 
 </LinearLayout>

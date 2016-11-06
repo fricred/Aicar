@@ -103,6 +103,7 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                 .build();
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton.setTextAlignment(SignInButton.TEXT_ALIGNMENT_CENTER);
         signInButton.setScopes(gso.getScopeArray());
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
@@ -224,6 +225,10 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
         intent.putExtra("fbObject",object.toString());
         startActivity(intent);
     }
+  /** Called when the user clicks the Login button */
+    public void goLogin(View view) {
+        this.finish();
+    }
 
     @Override
     public void onStart() {
@@ -246,7 +251,7 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
                    // hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
+                  //  handleSignInResult(googleSignInResult);
                 }
             });
         }
@@ -257,7 +262,7 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
 
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        Log.d(TAG, "handleSignInResult:" + result.getStatus());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
