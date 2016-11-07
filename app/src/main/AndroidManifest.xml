@@ -18,43 +18,52 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppThemeNoActionBar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistroActivity"
+        <activity
+            android:name=".RegistroActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeWhiteActionBar"/>
-        <activity android:name=".ActivitySocialSignUp"
+            android:theme="@style/AppThemeWhiteActionBar" />
+        <activity
+            android:name=".ActivitySocialSignUp"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeWhiteActionBar"/>
-        <activity android:name="com.facebook.FacebookActivity"
-            tools:replace="android:theme"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@style/AppThemeWhiteActionBar" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
+            tools:replace="android:theme" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="6ee03439d0bfb954b12deaf6b03054c004ef88e7" />
+
+        <activity
+            android:name=".home.Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

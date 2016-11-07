@@ -23,6 +23,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionBarStyle">@style/ActionBarStyle</item>
     </style>
+
     <style name="AppTheme.Button.primary" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/colorAccentDark</item>
         <item name="android:textColor">@color/White</item>
@@ -36,6 +37,7 @@
     <style name="ActionBarTitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+
     <style name="FacebookLoginButton">
         <item name="android:textSize">16dp</item>
         <item name="android:background">@drawable/com_facebook_button_background</item>
@@ -43,4 +45,13 @@
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

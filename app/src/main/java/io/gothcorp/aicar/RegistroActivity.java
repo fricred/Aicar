@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,12 +54,13 @@ public class RegistroActivity extends AppCompatActivity {
     private View mProgressView;
     private Boolean existeUsuario;
     JSONObject fbObject;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
-            fbObject = bundle != null ?new JSONObject(intent.getStringExtra("fbObject")):null;
+            fbObject = bundle != null ? new JSONObject(intent.getStringExtra("fbObject")) : null;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -88,7 +90,7 @@ public class RegistroActivity extends AppCompatActivity {
                 return handled;
             }
         });
-        username= (EditText) findViewById(R.id.username);
+        username = (EditText) findViewById(R.id.username);
         mRegistroView = findViewById(R.id.registro_form);
         mProgressView = findViewById(R.id.register_progress);
         loadFromFb();
@@ -109,13 +111,13 @@ public class RegistroActivity extends AppCompatActivity {
         }
     }
 
-    void loadFromFb(){
+    void loadFromFb() {
         try {
 
-            if(fbObject!= null){
+            if (fbObject != null) {
                 nombres.setText(fbObject.get("first_name").toString());
                 apellidos.setText(fbObject.get("last_name").toString());
-                email.setText(fbObject.get("email")!= null ? fbObject.get("email").toString():"");
+                email.setText(fbObject.get("email") != null ? fbObject.get("email").toString() : "");
                 username.setText(fbObject.get("username").toString());
 
             }
@@ -151,9 +153,24 @@ public class RegistroActivity extends AppCompatActivity {
         usuario.setCorreo(email.getText().toString());
         usuario.setNroCedula(cedula.getText().toString());
         usuario.setPlaca(placa.getText().toString());
-        usuario.setUsuario(username.getText().toString());
+        usuario.setUsuario(username.getText().toString().toUpperCase());
         usuario.setClave(clave.getText().toString());
+        try {
+            usuario.setFacebookId(fbObject.getString("id"));
 
+        } catch (JSONException e) {
+            Log.i("JSONException", e.getMessage());
+        }
+        try {
+            usuario.setGoogleId(fbObject.getString("googleId"));
+        } catch (JSONException e) {
+            Log.i("JSONException", e.getMessage());
+        }
+        try {
+            usuario.setTwitterI(fbObject.getString("twitterId"));
+        } catch (JSONException e) {
+            Log.i("JSONException", e.getMessage());
+        }
         boolean cancel = false;
         View focusView = null;
 
@@ -178,7 +195,7 @@ public class RegistroActivity extends AppCompatActivity {
             cedula.setError(getString(R.string.error_field_required));
             focusView = cedula;
             cancel = true;
-        }   else if(TextUtils.isDigitsOnly(usuario.getNroCedula()+".0")){
+        } else if (TextUtils.isDigitsOnly(usuario.getNroCedula() + ".0")) {
             cedula.setError(getString(R.string.error_campo_numerico));
             focusView = cedula;
             cancel = true;
@@ -187,7 +204,7 @@ public class RegistroActivity extends AppCompatActivity {
             placa.setError(getString(R.string.error_field_required));
             focusView = placa;
             cancel = true;
-        }else if(!isPlacaValid(usuario.getPlaca())){
+        } else if (!isPlacaValid(usuario.getPlaca())) {
             placa.setError(getString(R.string.error_field_placa_invalid));
             focusView = placa;
             cancel = true;
@@ -201,11 +218,11 @@ public class RegistroActivity extends AppCompatActivity {
             clave.setError(getString(R.string.error_field_required));
             focusView = clave;
             cancel = true;
-        }else if(!isPasswordValid(usuario.getClave())){
+        } else if (!isPasswordValid(usuario.getClave())) {
             clave.setError(getString(R.string.error_invalid_password));
             focusView = clave;
             cancel = true;
-        } else if(!usuario.getClave().equals(confirmarClave.getText().toString())){
+        } else if (!usuario.getClave().equals(confirmarClave.getText().toString())) {
             confirmarClave.setError(getString(R.string.error_field_no_match));
             focusView = confirmarClave;
             cancel = true;
@@ -221,12 +238,12 @@ public class RegistroActivity extends AppCompatActivity {
             // perform the user login attempt.
             hideSoftKeyboard(RegistroActivity.this);
             showProgress(true);
-            if(registrar(usuario)){
-                Toast.makeText(this,"Usuario Registrado Correctamente",Toast.LENGTH_SHORT).show();
-            }else if(existeUsuario){
-                Toast.makeText(this,"El nombre de usuario ya esta siendo utilizado",Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(this,"Ocurrio un error al registrar el usuario",Toast.LENGTH_SHORT).show();
+            if (registrar(usuario)) {
+                Toast.makeText(this, "Usuario Registrado Correctamente", Toast.LENGTH_SHORT).show();
+            } else if (existeUsuario) {
+                Toast.makeText(this, "El nombre de usuario ya esta siendo utilizado", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Ocurrio un error al registrar el usuario", Toast.LENGTH_SHORT).show();
             }
             showProgress(false);
 
@@ -240,7 +257,9 @@ public class RegistroActivity extends AppCompatActivity {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
 
-    }private boolean isPlacaValid(String placa) {
+    }
+
+    private boolean isPlacaValid(String placa) {
         String ePattern = "^[A-Z]{3}\\d{3}|[A-Z]{3}\\d{2}[A-Z]{1}$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(placa);
@@ -293,7 +312,7 @@ public class RegistroActivity extends AppCompatActivity {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if( activity.getCurrentFocus()!= null){
+        if (activity.getCurrentFocus() != null) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(), 0);
         }
@@ -301,23 +320,23 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("unchecked")
-    public Boolean registrar(Usuario usuario){
-        existeUsuario= false;
+    public Boolean registrar(Usuario usuario) {
+        existeUsuario = false;
         TinyDB tinydb = new TinyDB(this);
-        List<Usuario> usuarios = (List<Usuario>) (List)tinydb.getListObject("Aicar.Usuarios",Usuario.class);
-        if(usuarios!= null && !usuarios.isEmpty()){
-            if(usuarios.contains(usuario)){
+        List<Usuario> usuarios = (List<Usuario>) (List) tinydb.getListObject("Aicar.Usuarios", Usuario.class);
+        if (usuarios != null && !usuarios.isEmpty()) {
+            if (usuarios.contains(usuario)) {
                 existeUsuario = true;
                 return false;
-            }else{
+            } else {
                 usuarios.add(usuario);
             }
-        }else{
+        } else {
             usuarios = new ArrayList<>();
             usuarios.add(usuario);
         }
         // save the task list to preference
-         tinydb.putListObject("Aicar.Usuarios",(ArrayList<Object>)(List)usuarios);
+        tinydb.putListObject("Aicar.Usuarios", (ArrayList<Object>) (List) usuarios);
         return true;
     }
 }

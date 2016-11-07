@@ -104,12 +104,26 @@ public class Usuario {
 
         Usuario usuario1 = (Usuario) o;
 
-        return usuario.equals(usuario1.usuario);
+        if (usuario != null && usuario.equals(usuario1.usuario)){
+            return true;
+        }else if(facebookId != null && facebookId.equals(usuario1.facebookId) ){
+            return true;
+        }else if(googleId != null && googleId.equals(usuario1.googleId)){
+            return true;
+        }else if(twitterI != null && twitterI.equals(usuario1.twitterI)){
+            return true;
+        }else {
+            return false;
+        }
 
     }
 
     @Override
     public int hashCode() {
-        return usuario.hashCode();
+        int result = usuario != null ? usuario.hashCode() : 0;
+        result = 31 * result + (facebookId != null ? facebookId.hashCode() : 0);
+        result = 31 * result + (twitterI != null ? twitterI.hashCode() : 0);
+        result = 31 * result + (googleId != null ? googleId.hashCode() : 0);
+        return result;
     }
 }

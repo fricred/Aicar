@@ -59,9 +59,6 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(getApplication());
-        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_social_sign_up);
         ActionBar actionBar = getSupportActionBar();
         setTitle(R.string.registro);
@@ -136,6 +133,7 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                             object.put("username",userResult.data.screenName);
                             object.put("last_name","");
                             object.put("email",email!= null ? email :" ");
+                            object.put("twitterId",userResult.data.getId());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -271,6 +269,7 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                 object.put("first_name",acct.getGivenName());
                 object.put("last_name",acct.getFamilyName());
                 object.put("email",acct.getEmail());
+                object.put("googleId",acct.getId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

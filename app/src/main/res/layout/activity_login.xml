@@ -72,12 +72,14 @@
         android:weightSum="1.5"
         android:padding="@dimen/activity_horizontal_margin_no_padding"
         android:layout_marginLeft="130dp"
-        android:layout_marginRight="130dp">
+        android:layout_marginRight="130dp"
+        android:id="@+id/social_btn_container">
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/iv_facebook"
+            android:onClick="goLoginFacebook"
             android:src="@mipmap/ic_facebook"
             android:layout_weight="0.5"
             android:layout_gravity="center_horizontal"
@@ -126,6 +128,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
+                    android:nextFocusDown="@+id/login_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_user"
@@ -139,13 +142,13 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/login_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
+                    android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
                      />
@@ -165,7 +168,7 @@
         </LinearLayout>
     </ScrollView>
     <LinearLayout
-        android:id="@+id/linearLayout1"
+        android:id="@+id/buttons_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -178,7 +181,8 @@
             android:text="@string/login"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_weight="1"
-            android:id="@+id/button"
+            android:id="@+id/login_app"
+            android:onClick=""
             android:padding="@dimen/activity_vertical_margin_no_padding"
             android:layout_margin="0dp"
             android:minHeight="0dp"
@@ -191,7 +195,7 @@
             android:text="@string/registrar"
             android:layout_weight="1"
             style="?android:attr/buttonBarButtonStyle"
-            android:id="@+id/button2"
+            android:id="@+id/btn_go_registrar"
             android:padding="@dimen/activity_horizontal_margin_no_padding"
             android:layout_margin="0dp"
             android:onClick="goRegistrar"

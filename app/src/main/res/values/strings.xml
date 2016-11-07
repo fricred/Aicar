@@ -15,7 +15,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">La direccion de correo es invalida</string>
     <string name="error_invalid_password">La contraseña es demasiado corta</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_password">El usuario o contraseña son incorrectos</string>
     <string name="error_campo_numerico">Debe ingresar solo numeros</string>
     <string name="error_field_placa_invalid">Numero de placa invalido (ej: ABC123)</string>
     <string name="error_field_no_match">Los campos no coinciden</string>
@@ -49,4 +49,10 @@
     <!-- Facebook api-->
     <string name="facebook_app_id">153076308481203</string>
     <string name="fb_login_protocol_scheme">153076308481203</string>
+    <string name="title_activity_home">Home</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
