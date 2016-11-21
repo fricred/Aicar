@@ -2,6 +2,7 @@ package io.gothcorp.aicar.Utils;
 
 import android.app.Service;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,11 +62,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Servicio album = albumList.get(position);
         holder.title.setText(album.getName());
-        holder.count.setText(album.getAlerts() + " Alerts");
-
-        // loading album cover using Glide library
-        Glide.with(mContext).load(album.getIcon()).into(holder.thumbnail);
-
+        holder.count.setText(album.getAlerts() + " Alerta");
+        holder.thumbnail.setImageResource(album.getIcon());
+        holder.thumbnail.setColorFilter(ContextCompat.getColor(mContext,R.color.colorAccentDark));
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

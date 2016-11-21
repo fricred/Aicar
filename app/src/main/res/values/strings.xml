@@ -56,6 +56,12 @@
 
     <string name="action_settings">Settings</string>
 
-    <!--HOme screen-->
+    <!--Home screen-->
     <string name="serviciosLbl">SERVICIOS</string>
+    <string name="hometitle">Inicio</string>
+    <string name="menuPerfil">Perfil</string>
+    <string name="menuHistory">Historial</string>
+    <string name="menuAjustes">Ajustes</string>
+    <string name="menuSesionTitle">Sesión</string>
+    <string name="menuLogout">Salir</string>
 </resources>
