@@ -24,6 +24,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +38,7 @@ import java.util.Set;
 
 import io.gothcorp.aicar.Utils.ObjectSerializer;
 import io.gothcorp.aicar.Utils.TinyDB;
+import io.gothcorp.aicar.home.Home;
 import io.gothcorp.aicar.model.Usuario;
 
 public class RegistroActivity extends AppCompatActivity {
@@ -155,22 +158,25 @@ public class RegistroActivity extends AppCompatActivity {
         usuario.setPlaca(placa.getText().toString());
         usuario.setUsuario(username.getText().toString().toUpperCase());
         usuario.setClave(clave.getText().toString());
-        try {
-            usuario.setFacebookId(fbObject.getString("id"));
+        if(fbObject!= null){
+            try {
+                usuario.setFacebookId(fbObject.getString("id"));
 
-        } catch (JSONException e) {
-            Log.i("JSONException", e.getMessage());
+            } catch (JSONException e) {
+                Log.i("JSONException", e.getMessage());
+            }
+            try {
+                usuario.setGoogleId(fbObject.getString("googleId"));
+            } catch (JSONException e) {
+                Log.i("JSONException", e.getMessage());
+            }
+            try {
+                usuario.setTwitterI(fbObject.getString("twitterId"));
+            } catch (JSONException e) {
+                Log.i("JSONException", e.getMessage());
+            }
         }
-        try {
-            usuario.setGoogleId(fbObject.getString("googleId"));
-        } catch (JSONException e) {
-            Log.i("JSONException", e.getMessage());
-        }
-        try {
-            usuario.setTwitterI(fbObject.getString("twitterId"));
-        } catch (JSONException e) {
-            Log.i("JSONException", e.getMessage());
-        }
+
         boolean cancel = false;
         View focusView = null;
 
@@ -240,8 +246,12 @@ public class RegistroActivity extends AppCompatActivity {
             showProgress(true);
             if (registrar(usuario)) {
                 Toast.makeText(this, "Usuario Registrado Correctamente", Toast.LENGTH_SHORT).show();
+                Gson gsonObject = new Gson();
+                Intent intent = new Intent(this, Home.class);
+                intent.putExtra("actualUser", gsonObject.toJson(usuario));
+                startActivity(intent);
             } else if (existeUsuario) {
-                Toast.makeText(this, "El nombre de usuario ya esta siendo utilizado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "El nombre de usuario ya se encuentra registrado", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Ocurrio un error al registrar el usuario", Toast.LENGTH_SHORT).show();
             }
@@ -325,8 +335,13 @@ public class RegistroActivity extends AppCompatActivity {
         TinyDB tinydb = new TinyDB(this);
         List<Usuario> usuarios = (List<Usuario>) (List) tinydb.getListObject("Aicar.Usuarios", Usuario.class);
         if (usuarios != null && !usuarios.isEmpty()) {
-            if (usuarios.contains(usuario)) {
-                existeUsuario = true;
+            for(Usuario usuario1 : usuarios){
+                if(usuario1.getUsuario().equals(usuario.getUsuario())){
+                    existeUsuario = true;
+                    break;
+                }
+            }
+            if (existeUsuario) {
                 return false;
             } else {
                 usuarios.add(usuario);

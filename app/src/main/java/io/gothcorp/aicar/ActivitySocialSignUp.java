@@ -1,5 +1,6 @@
 package io.gothcorp.aicar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -29,6 +30,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.gson.Gson;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -44,7 +46,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.List;
 
+import io.gothcorp.aicar.Utils.TinyDB;
+import io.gothcorp.aicar.home.Home;
+import io.gothcorp.aicar.model.Usuario;
 import retrofit2.Call;
 
 public class ActivitySocialSignUp extends AppCompatActivity  implements
@@ -55,11 +61,18 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     private TwitterLoginButton loginButtonTwitter;
-
+    List<Usuario> usuarios;
+    private Context mContext;
+    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social_sign_up);
+        mContext = this;
+        //cargar usuarios registrados
+        TinyDB tinydb = new TinyDB(this);
+        usuarios = (List<Usuario>) (List) tinydb.getListObject("Aicar.Usuarios", Usuario.class);
+
         ActionBar actionBar = getSupportActionBar();
         setTitle(R.string.registro);
         if (actionBar != null) {
@@ -123,21 +136,30 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                     @Override
                     public void success(Result<User> userResult)
                     {
-
-
-                        String name = userResult.data.name;
-                        String email = userResult.data.email;
-                        JSONObject object = new JSONObject();
-                        try {
-                            object.put("first_name",name);
-                            object.put("username",userResult.data.screenName);
-                            object.put("last_name","");
-                            object.put("email",email!= null ? email :" ");
-                            object.put("twitterId",userResult.data.getId());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        Usuario usuario = new Usuario();
+                        usuario.setTwitterI(((Long)userResult.data.id).toString());
+                        if (usuarios != null && !usuarios.isEmpty() && usuarios.contains(usuario)) {
+                            Usuario userFound = usuarios.get(usuarios.indexOf(usuario));
+                            Intent intent = new Intent(mContext, Home.class);
+                            Gson gsonObject = new Gson();
+                            intent.putExtra("actualUser", gsonObject.toJson(userFound));
+                            startActivity(intent);
+                            Toast.makeText(mContext, "Usuario Encontrado", Toast.LENGTH_SHORT).show();
+                        }else {
+                            String name = userResult.data.name;
+                            String email = userResult.data.email;
+                            JSONObject object = new JSONObject();
+                            try {
+                                object.put("first_name", name);
+                                object.put("username", userResult.data.screenName);
+                                object.put("last_name", "");
+                                object.put("email", email != null ? email : " ");
+                                object.put("twitterId", userResult.data.getId());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            goRegistrarWithFacebook(object);
                         }
-                        goRegistrarWithFacebook(object);
                     }
 
                     @Override
@@ -218,10 +240,26 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     }
 
     /** Called when the user clicks the Send button */
+    @SuppressWarnings("unchecked")
     public void goRegistrarWithFacebook(JSONObject object) {
-        Intent intent = new Intent(this, RegistroActivity.class);
-        intent.putExtra("fbObject",object.toString());
-        startActivity(intent);
+        Usuario usuario = new Usuario();
+        try {
+            usuario.setFacebookId(object.get("id").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (usuarios != null && !usuarios.isEmpty() && usuarios.contains(usuario)) {
+            Usuario userFound = usuarios.get(usuarios.indexOf(usuario));
+            Intent intent = new Intent(this, Home.class);
+            Gson gsonObject = new Gson();
+            intent.putExtra("actualUser", gsonObject.toJson(userFound));
+            startActivity(intent);
+            Toast.makeText(this, "Usuario Encontrado", Toast.LENGTH_SHORT).show();
+        }else {
+            Intent intent = new Intent(this, RegistroActivity.class);
+            intent.putExtra("fbObject", object.toString());
+            startActivity(intent);
+        }
     }
   /** Called when the user clicks the Login button */
     public void goLogin(View view) {
@@ -264,19 +302,33 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            JSONObject object = new JSONObject();
-            try {
-                object.put("first_name",acct.getGivenName());
-                object.put("last_name",acct.getFamilyName());
-                object.put("email",acct.getEmail());
-                object.put("googleId",acct.getId());
-            } catch (JSONException e) {
-                e.printStackTrace();
+            Usuario usuario = new Usuario();
+            usuario.setGoogleId(acct.getId());
+            if (usuarios != null && !usuarios.isEmpty() && usuarios.contains(usuario)) {
+                Usuario userFound = usuarios.get(usuarios.indexOf(usuario));
+                Intent intent = new Intent(this, Home.class);
+                Gson gsonObject = new Gson();
+                intent.putExtra("actualUser", gsonObject.toJson(userFound));
+                startActivity(intent);
+                Toast.makeText(this, "Usuario Encontrado", Toast.LENGTH_SHORT).show();
+            }else {
+
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("first_name",acct.getGivenName());
+                    object.put("last_name",acct.getFamilyName());
+                    object.put("email",acct.getEmail());
+                    object.put("googleId",acct.getId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent = new Intent(this, RegistroActivity.class);
+                intent.putExtra("fbObject",object.toString());
+                startActivity(intent);
             }
 
-            Intent intent = new Intent(this, RegistroActivity.class);
-            intent.putExtra("fbObject",object.toString());
-            startActivity(intent);
+
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);

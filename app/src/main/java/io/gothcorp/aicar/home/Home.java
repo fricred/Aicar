@@ -1,10 +1,11 @@
 package io.gothcorp.aicar.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,10 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+
 import io.gothcorp.aicar.R;
+import io.gothcorp.aicar.model.Usuario;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    boolean doubleBackToExitPressedOnce = false;
+    Usuario usuarioLogeado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,11 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        Gson gsonObject = new Gson();
+        usuarioLogeado = bundle != null ? gsonObject.fromJson(intent.getStringExtra("actualUser"), Usuario.class) : null;
+
     }
 
     @Override
@@ -49,7 +64,20 @@ public class Home extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Oprima ATRAS nuevamente para salir", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         }
     }
 
@@ -57,6 +85,10 @@ public class Home extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        TextView textView = (TextView) findViewById(R.id.home_correo_header);
+        textView.setText(usuarioLogeado.getCorreo());
+        TextView homeName = (TextView) findViewById(R.id.home_name_header);
+        homeName.setText(usuarioLogeado.getNombres()+" "+usuarioLogeado.getApellidos() );
         return true;
     }
 

@@ -119,12 +119,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormButtons;
     //Facebook API
     private CallbackManager callbackManager;
+    private TwitterAuthClient clientTwitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+        clientTwitter = new TwitterAuthClient();
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication());
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -424,8 +427,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 break;
             case R.id.iv_twitter:
                 showProgress(true);
-                TwitterAuthClient mTwitterAuthClient= new TwitterAuthClient();
-                mTwitterAuthClient.authorize(this, new com.twitter.sdk.android.core.Callback<TwitterSession>() {
+                clientTwitter.authorize(this, new com.twitter.sdk.android.core.Callback<TwitterSession>() {
 
                     @Override
                     public void success(Result<TwitterSession> result) {
@@ -639,6 +641,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
+        clientTwitter.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
         //loginButtonTwitter.onActivityResult(requestCode, resultCode, data);
