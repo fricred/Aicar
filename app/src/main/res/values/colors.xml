@@ -6,4 +6,7 @@
     <color name="colorAccentDark">#dd5b4e</color>
     <color name="White">#ffffff</color>
     <color name="White_dark">#E6E6E6</color>
+
+    <color name="viewBg">#f1f5f8</color>
+    <color name="album_title">#4c4c4c</color>
 </resources>

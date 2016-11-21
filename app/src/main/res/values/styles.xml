@@ -38,6 +38,25 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+
+    <style name="AppThemeDarkActionBar" parent="AppTheme.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/ActionBarStyleDark</item>
+    </style>
+
+
+    <style name="ActionBarStyleDark" parent="Widget.AppCompat.ActionBar">
+        <item name="titleTextStyle">@style/ActionBarTitleTextStyleWhite</item>
+        <item name="background">@color/colorPrimary</item>
+    </style>
+
+    <style name="ActionBarTitleTextStyleWhite" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/White</item>
+    </style>
+
     <style name="FacebookLoginButton">
         <item name="android:textSize">16dp</item>
         <item name="android:background">@drawable/com_facebook_button_background</item>
