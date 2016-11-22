@@ -105,6 +105,8 @@ public class Home extends AppCompatActivity
         textView.setText(usuarioLogeado.getCorreo());
         TextView homeName = (TextView) findViewById(R.id.home_name_header);
         homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
+        TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
+        textViewPLaca.setText(usuarioLogeado.getPlaca());
         return true;
     }
 
