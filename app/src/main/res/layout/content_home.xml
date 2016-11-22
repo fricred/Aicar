@@ -28,29 +28,29 @@
 
     </SearchView>
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/placa"
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/searchView"
-        app:srcCompat="@drawable/placa"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignEnd="@+id/searchView" />
+        android:background="@drawable/placa"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-    <TextView
-        android:id="@+id/txtPlaca"
-        android:layout_width="wrap_content"
-        android:text="DTF456"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="70dp"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif"
-        android:typeface="monospace"
-        android:textSize="24sp"
-        android:textStyle="normal|bold" />
+        <TextView
+            android:id="@+id/txtPlaca"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="DTF456"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:typeface="monospace" />
+    </LinearLayout>
+
 
     <RelativeLayout
         android:id="@+id/layoutTitulo"
@@ -63,6 +63,7 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:paddingTop="8dp">
+
         <TextView
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
