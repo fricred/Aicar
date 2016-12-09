@@ -91,7 +91,7 @@
                     android:hint="@string/prompt_apellidos"
                     android:maxLines="1"
                     android:inputType="text"
-                    android:nextFocusDown="@id/email" />
+                    android:nextFocusDown="@+id/correo" />
 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout

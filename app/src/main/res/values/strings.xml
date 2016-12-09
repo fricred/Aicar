@@ -58,10 +58,20 @@
 
     <!--Home screen-->
     <string name="serviciosLbl">SERVICIOS</string>
-    <string name="hometitle">Inicio</string>
+    <string name="hometitle">iCar</string>
     <string name="menuPerfil">Perfil</string>
     <string name="menuHistory">Historial</string>
     <string name="menuAjustes">Ajustes</string>
     <string name="menuSesionTitle">Sesión</string>
     <string name="menuLogout">Salir</string>
+    <string name="alertas">Alertas</string>
+
+    <!--General -->
+    <string name="salirWarn">Oprima ATRAS nuevamente para salir</string>
+    <string name="olvido_pwd_title">Olvide mi contraseña</string>
+    <string name="pwd_reminder_label">Ingrese su usuario o contraseña</string>
+    <string name="pwd_reminder_label_empty"> </string>
+    <string name="aceptar_btn">Acepto</string>
+    <string name="cancelar_btn">Cancelar</string>
+    <string name="title_activity_editar_perfil">editarPerfil</string>
 </resources>

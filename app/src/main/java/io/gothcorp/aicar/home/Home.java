@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -39,10 +40,11 @@ public class Home extends AppCompatActivity
     Usuario usuarioLogeado;
     private boolean activityStartup = true;
     private SearchView searchView;
-    private RecyclerView recyclerView;
     private ServiceAdapter adapter;
     private List<Servicio> servicioList;
-
+    private Bundle bundle;
+    private Intent intent;
+    private Gson gsonObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +69,13 @@ public class Home extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        Gson gsonObject = new Gson();
-        usuarioLogeado = bundle != null ? gsonObject.fromJson(intent.getStringExtra("actualUser"), Usuario.class) : null;
+        intent = getIntent();
+        bundle = savedInstanceState != null ? savedInstanceState :intent.getExtras();
+        gsonObject = new Gson();
+        usuarioLogeado = bundle != null ? gsonObject.fromJson(bundle.getString("actualUser"), Usuario.class) : null;
+
         setUI();
+
     }
 
     @Override
@@ -86,8 +90,7 @@ public class Home extends AppCompatActivity
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Oprima ATRAS nuevamente para salir", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, R.string.salirWarn, Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -101,12 +104,21 @@ public class Home extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         // getMenuInflater().inflate(R.menu.home, menu);
-        TextView textView = (TextView) findViewById(R.id.home_correo_header);
-        textView.setText(usuarioLogeado.getCorreo());
-        TextView homeName = (TextView) findViewById(R.id.home_name_header);
-        homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
-        TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
-        textViewPLaca.setText(usuarioLogeado.getPlaca());
+        if(usuarioLogeado!= null) {
+            TextView textView = (TextView) findViewById(R.id.home_correo_header);
+            textView.setText(usuarioLogeado.getCorreo());
+            TextView homeName = (TextView) findViewById(R.id.home_name_header);
+            homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
+            TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
+            textViewPLaca.setText(usuarioLogeado.getPlaca());
+
+            if (bundle != null && intent.getBooleanExtra("goEditar", false)) {
+                Intent intentEditar = new Intent(getApplicationContext(), EditarPerfil.class);
+                intent.putExtra("actualUser", gsonObject.toJson(usuarioLogeado));
+                startActivity(intentEditar);
+
+            }
+        }
         return true;
     }
 
@@ -131,19 +143,9 @@ public class Home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-      /*  if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+        if (id == R.id.nav_logout) {
+            this.finishAffinity();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -152,6 +154,9 @@ public class Home extends AppCompatActivity
 
     public void setUI() {
         setTitle(R.string.hometitle);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setIcon(R.drawable.logo_aicar);
+        }
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setIconifiedByDefault(false);
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
@@ -166,7 +171,7 @@ public class Home extends AppCompatActivity
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         servicioList = new ArrayList<>();
         adapter = new ServiceAdapter(this, servicioList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
@@ -243,5 +248,11 @@ public class Home extends AppCompatActivity
         servicioList.add(d);
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("actualUser", gsonObject.toJson(usuarioLogeado));
     }
 }

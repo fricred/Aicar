@@ -1,6 +1,5 @@
 package io.gothcorp.aicar.Utils;
 
-import android.app.Service;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
@@ -11,12 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -29,13 +24,13 @@ import io.gothcorp.aicar.model.Servicio;
 
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHolder> {
     private Context mContext;
-    private List<Servicio> albumList;
+    private List<Servicio> servicioList;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count;
-        public ImageView thumbnail, overflow;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+         TextView title, count;
+         ImageView thumbnail, overflow;
 
-        public MyViewHolder(View view) {
+         MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
             count = (TextView) view.findViewById(R.id.count);
@@ -45,32 +40,35 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     }
 
 
-    public ServiceAdapter(Context mContext, List<Servicio> albumList) {
+    public ServiceAdapter(Context mContext, List<Servicio> servicioList) {
         this.mContext = mContext;
-        this.albumList = albumList;
+        this.servicioList = servicioList;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.service_layout, parent, false);
-
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Servicio album = albumList.get(position);
-        holder.title.setText(album.getName());
-        holder.count.setText(album.getAlerts() + " Alerta");
-        holder.thumbnail.setImageResource(album.getIcon());
+        Servicio servicio = servicioList.get(position);
+        holder.title.setText(servicio.getName());
+        holder.count.setText(servicio.getAlerts() + R.string.alertas);
+        holder.thumbnail.setImageResource(servicio.getIcon());
         holder.thumbnail.setColorFilter(ContextCompat.getColor(mContext,R.color.colorAccentDark));
-        holder.overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.overflow);
-            }
-        });
+        if(position < servicioList.size()-1) {
+            holder.overflow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showPopupMenu(holder.overflow);
+                }
+            });
+        }else{
+            holder.overflow.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
@@ -88,9 +86,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     /**
      * Click listener for popup menu items
      */
-    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+    private class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
-        public MyMenuItemClickListener() {
+        MyMenuItemClickListener() {
         }
 
         @Override
@@ -110,6 +108,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return albumList.size();
+        return servicioList.size();
     }
 }

@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://jitpack.io" }
     mavenCentral()
 }
 
@@ -55,5 +56,10 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.1'
     // Glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.afollestad.material-dialogs:core:0.9.1.0'
+    compile 'com.afollestad.material-dialogs:commons:0.9.1.0'
+
+    //alpr
+    compile 'com.github.SandroMachado:openalpr-android:1.1.1'
 }
 apply plugin: 'com.google.gms.google-services'

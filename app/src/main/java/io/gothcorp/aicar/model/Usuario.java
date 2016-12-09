@@ -112,6 +112,8 @@ public class Usuario {
             return true;
         }else if(twitterI != null && twitterI.equals(usuario1.twitterI)){
             return true;
+        }else if(correo != null && correo.equals(usuario1.getCorreo())){
+            return true;
         }else {
             return false;
         }
