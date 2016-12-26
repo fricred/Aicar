@@ -1,4 +1,4 @@
-package io.gothcorp.aicar;
+package io.gothcorp.aicar.ui.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -63,9 +63,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
+import io.gothcorp.aicar.R;
 import io.gothcorp.aicar.Utils.TinyDB;
-import io.gothcorp.aicar.home.EditarPerfil;
-import io.gothcorp.aicar.home.Home;
 import io.gothcorp.aicar.model.Usuario;
 import retrofit2.Call;
 

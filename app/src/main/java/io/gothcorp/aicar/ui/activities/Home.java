@@ -1,13 +1,24 @@
-package io.gothcorp.aicar.home;
+package io.gothcorp.aicar.ui.activities;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,18 +27,32 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.squareup.picasso.Picasso;
 
+import org.openalpr.OpenALPR;
+import org.openalpr.model.Results;
+import org.openalpr.model.ResultsError;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import io.gothcorp.aicar.R;
 import io.gothcorp.aicar.Utils.ServiceAdapter;
@@ -45,6 +70,14 @@ public class Home extends AppCompatActivity
     private Bundle bundle;
     private Intent intent;
     private Gson gsonObject;
+    private static final int REQUEST_IMAGE = 100;
+    private static final int STORAGE = 1;
+    private String ANDROID_DATA_DIR;
+    private static File destination;
+    private ImageView imagenPlaca;
+    private TextView txPLaca;
+    private String placaDetectada;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +89,7 @@ public class Home extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                checkPermission();
             }
         });
 
@@ -70,10 +102,12 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         intent = getIntent();
-        bundle = savedInstanceState != null ? savedInstanceState :intent.getExtras();
+        bundle = savedInstanceState != null ? savedInstanceState : intent.getExtras();
         gsonObject = new Gson();
         usuarioLogeado = bundle != null ? gsonObject.fromJson(bundle.getString("actualUser"), Usuario.class) : null;
-
+        ANDROID_DATA_DIR = this.getApplicationInfo().dataDir;
+        Object placaDetectadaObj = bundle.get("placaDetectada");
+        placaDetectada = placaDetectadaObj!= null ? placaDetectadaObj.toString() : null;
         setUI();
 
     }
@@ -104,14 +138,13 @@ public class Home extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         // getMenuInflater().inflate(R.menu.home, menu);
-        if(usuarioLogeado!= null) {
+        if (usuarioLogeado != null) {
             TextView textView = (TextView) findViewById(R.id.home_correo_header);
             textView.setText(usuarioLogeado.getCorreo());
             TextView homeName = (TextView) findViewById(R.id.home_name_header);
             homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
             TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
-            textViewPLaca.setText(usuarioLogeado.getPlaca());
-
+            textViewPLaca.setText(placaDetectada != null ? placaDetectada : usuarioLogeado.getPlaca());
             if (bundle != null && intent.getBooleanExtra("goEditar", false)) {
                 Intent intentEditar = new Intent(getApplicationContext(), EditarPerfil.class);
                 intent.putExtra("actualUser", gsonObject.toJson(usuarioLogeado));
@@ -139,7 +172,7 @@ public class Home extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -170,6 +203,8 @@ public class Home extends AppCompatActivity
                 }
             }
         });
+        imagenPlaca = (ImageView) findViewById(R.id.imagenPlaca);
+        txPLaca = (TextView) findViewById(R.id.txtPlaca);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         servicioList = new ArrayList<>();
@@ -191,7 +226,7 @@ public class Home extends AppCompatActivity
         private int spacing;
         private boolean includeEdge;
 
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+        GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
             this.spanCount = spanCount;
             this.spacing = spacing;
             this.includeEdge = includeEdge;
@@ -254,5 +289,131 @@ public class Home extends AppCompatActivity
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putString("actualUser", gsonObject.toJson(usuarioLogeado));
+        savedInstanceState.putString("placaDetectada", placaDetectada != null ? placaDetectada : null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE && resultCode == Activity.RESULT_OK) {
+
+            final ProgressDialog progress = ProgressDialog.show(this, "Loading", "Parsing result...", true);
+            final String openAlprConfFile = ANDROID_DATA_DIR + File.separatorChar + "runtime_data" + File.separatorChar + "openalpr.conf";
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 10;
+
+            // Picasso requires permission.WRITE_EXTERNAL_STORAGE
+            Picasso.with(Home.this).load(destination).fit().centerCrop().into(imagenPlaca);
+            imagenPlaca.setVisibility(View.VISIBLE);
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    String result = OpenALPR.Factory.create(Home.this, ANDROID_DATA_DIR).recognizeWithCountryRegionNConfig("us", "", destination.getAbsolutePath(), openAlprConfFile, 10);
+
+                    Log.d("OPEN ALPR", result);
+
+                    try {
+                        final Results results = new Gson().fromJson(result, Results.class);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (results == null || results.getResults() == null || results.getResults().size() == 0) {
+                                    Toast.makeText(Home.this, "It was not possible to detect the licence plate.", Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    placaDetectada = results.getResults().get(0).getPlate();
+                                    txPLaca.setText(placaDetectada);
+                                    Log.i("msG", "Plate: " + results.getResults().get(0).getPlate()
+                                            // Trim confidence to two decimal places
+                                            + " Confidence: " + String.format("%.2f", results.getResults().get(0).getConfidence()) + "%"
+                                            // Convert processing time to seconds and trim to two decimal places
+                                            + " Processing time: " + String.format("%.2f", ((results.getProcessing_time_ms() / 1000.0) % 60)) + " seconds");
+                                }
+                            }
+                        });
+
+                    } catch (JsonSyntaxException exception) {
+                        final ResultsError resultsError = new Gson().fromJson(result, ResultsError.class);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.i("Erorr", resultsError.toString());
+                            }
+                        });
+                    }
+
+                    progress.dismiss();
+                }
+            });
+        }
+    }
+
+    private void checkPermission() {
+        List<String> permissions = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!permissions.isEmpty()) {
+            Toast.makeText(this, "Storage access needed to manage the picture.", Toast.LENGTH_LONG).show();
+            String[] params = permissions.toArray(new String[permissions.size()]);
+            ActivityCompat.requestPermissions(this, params, STORAGE);
+        } else { // We already have permissions, so handle as normal
+            takePicture();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case STORAGE: {
+                Map<String, Integer> perms = new HashMap<>();
+                // Initial
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                // Fill with results
+                for (int i = 0; i < permissions.length; i++)
+                    perms.put(permissions[i], grantResults[i]);
+                // Check for WRITE_EXTERNAL_STORAGE
+                Boolean storage = perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+                if (storage) {
+                    // permission was granted, yay!
+                    takePicture();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(this, "Storage permission is needed to analyse the picture.", Toast.LENGTH_LONG).show();
+                }
+            }
+            default:
+                break;
+        }
+    }
+
+    public String dateToString(Date date, String format) {
+        SimpleDateFormat df = new SimpleDateFormat(format, Locale.getDefault());
+
+        return df.format(date);
+    }
+
+    public void takePicture() {
+        // Use a folder to store all results
+        File folder = new File(Environment.getExternalStorageDirectory() + "/OpenALPR/");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        // Generate the path for the next photo
+        String name = dateToString(new Date(), "yyyy-MM-dd-hh-mm-ss");
+        destination = new File(folder, name + ".jpg");
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(destination));
+        startActivityForResult(intent, REQUEST_IMAGE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (destination != null) {// Picasso does not seem to have an issue with a null value, but to be safe
+            Picasso.with(Home.this).load(destination).fit().centerCrop().into(imagenPlaca);
+        }
     }
 }

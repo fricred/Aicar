@@ -1,4 +1,4 @@
-package io.gothcorp.aicar.home;
+package io.gothcorp.aicar.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

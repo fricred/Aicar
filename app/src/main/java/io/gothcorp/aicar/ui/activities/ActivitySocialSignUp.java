@@ -1,4 +1,4 @@
-package io.gothcorp.aicar;
+package io.gothcorp.aicar.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +14,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
@@ -37,7 +35,6 @@ import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
-import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.core.services.AccountService;
@@ -48,8 +45,8 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 
+import io.gothcorp.aicar.R;
 import io.gothcorp.aicar.Utils.TinyDB;
-import io.gothcorp.aicar.home.Home;
 import io.gothcorp.aicar.model.Usuario;
 import retrofit2.Call;
 

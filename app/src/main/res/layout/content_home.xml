@@ -11,7 +11,7 @@
     android:paddingRight="0dp"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="io.gothcorp.aicar.home.Home"
+    tools:context="io.gothcorp.aicar.ui.activities.Home"
     tools:showIn="@layout/app_bar_home">
 
     <SearchView
@@ -28,28 +28,40 @@
 
     </SearchView>
 
-    <LinearLayout
-        android:id="@+id/placa"
-        android:layout_width="120dp"
+    <RelativeLayout
+        android:id="@+id/contentPlaca"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_below="@+id/searchView"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/placa"
-        android:orientation="vertical"
-        android:weightSum="1">
+        android:layout_marginStart="12dp">
 
-        <TextView
-            android:id="@+id/txtPlaca"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:text="DTF456"
-            android:textSize="24sp"
-            android:textStyle="normal|bold"
-            android:typeface="monospace" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/placa"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:background="@drawable/placa"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/txtPlaca"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:freezesText="true"
+                android:textSize="24sp"
+                android:textStyle="normal|bold"
+                android:typeface="monospace" />
+
+        </LinearLayout>
+        <ImageView android:id="@+id/imagenPlaca"
+            android:layout_toEndOf="@+id/placa"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:visibility="gone"
+            android:contentDescription="@string/placafoto" />
+    </RelativeLayout>
 
 
     <RelativeLayout
@@ -57,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/placa"
+        android:layout_below="@+id/contentPlaca"
         android:background="@color/White"
         android:paddingBottom="8dp"
         android:paddingEnd="16dp"
