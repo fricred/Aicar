@@ -129,7 +129,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 attemptLogin();
             }
         });
@@ -319,12 +318,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.iv_google:
                 signIn();
                 break;
             case R.id.iv_twitter:
-                showProgress(true);
                 clientTwitter.authorize(this, new com.twitter.sdk.android.core.Callback<TwitterSession>() {
 
                     @Override
@@ -530,7 +529,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void initLoginTask(Usuario usuario) {
-
+        showProgress(true);
         mAuthTask = new UserLoginTask(usuario, this);
         mAuthTask.execute((Void) null);
     }

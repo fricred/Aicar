@@ -67,8 +67,22 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeDarkActionBar" />
         <activity
+            android:name=".ui.activities.GalleryUtil"
+            android:label="@string/title_galeria"
+            android:theme="@style/AppThemeDarkActionBar" />
+        <activity
             android:name=".ui.activities.EditarPerfil"
             android:label="@string/title_activity_editar_perfil"
+            android:parentActivityName=".ui.activities.Home"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.gothcorp.aicar.ui.activities.Home" />
+        </activity>
+        <activity
+            android:name=".ui.activities.HistoriaActivity"
+            android:label="@string/title_activity_historia"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ui.activities.Home"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

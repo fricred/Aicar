@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "750832419877",
-    "project_id": "firebase-aicar"
+    "project_number": "508763426759",
+    "project_id": "aicar-2"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:750832419877:android:8c1ce8ace2822508",
+        "mobilesdk_app_id": "1:508763426759:android:8c1ce8ace2822508",
         "android_client_info": {
           "package_name": "io.gothcorp.aicar"
         }
       },
       "oauth_client": [
         {
-          "client_id": "750832419877-fpqoksgg4q2ckf45t0jats04mc2rb3s1.apps.googleusercontent.com",
+          "client_id": "508763426759-8mge7qlu422kfpmiouc23390v6f6r9fi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "io.gothcorp.aicar",
-            "certificate_hash": "68E35D146EA26D732AE4D5ACF86F83074AC05778"
+            "certificate_hash": "575609FCDEB83F8F44D0533A56D5C47700261819"
           }
         },
         {
-          "client_id": "750832419877-g1hq49ce8ovqjt4v38k3n7dg0gteav58.apps.googleusercontent.com",
+          "client_id": "508763426759-7tkga7ulq9v0lpgam8t3ki52jtc4qir4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBerrb29eNnybQ6hTEcelku4JI6oBE29vQ"
+          "current_key": "AIzaSyAjBVrcGgGkwqm79W_xXCg1ctdBbuftJ18"
         }
       ],
       "services": {

@@ -56,8 +56,13 @@ import java.util.Map;
 
 import io.gothcorp.aicar.R;
 import io.gothcorp.aicar.Utils.ServiceAdapter;
+import io.gothcorp.aicar.Utils.TinyDB;
+import io.gothcorp.aicar.model.Historia;
 import io.gothcorp.aicar.model.Servicio;
 import io.gothcorp.aicar.model.Usuario;
+
+import static io.gothcorp.aicar.R.id.placa;
+import static io.gothcorp.aicar.R.id.usuario;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -77,6 +82,7 @@ public class Home extends AppCompatActivity
     private ImageView imagenPlaca;
     private TextView txPLaca;
     private String placaDetectada;
+    private Boolean menuCreated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +113,7 @@ public class Home extends AppCompatActivity
         usuarioLogeado = bundle != null ? gsonObject.fromJson(bundle.getString("actualUser"), Usuario.class) : null;
         ANDROID_DATA_DIR = this.getApplicationInfo().dataDir;
         Object placaDetectadaObj = bundle.get("placaDetectada");
-        placaDetectada = placaDetectadaObj!= null ? placaDetectadaObj.toString() : null;
+        placaDetectada = placaDetectadaObj != null ? placaDetectadaObj.toString() : null;
         setUI();
 
     }
@@ -139,19 +145,17 @@ public class Home extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         // getMenuInflater().inflate(R.menu.home, menu);
         if (usuarioLogeado != null) {
-            TextView textView = (TextView) findViewById(R.id.home_correo_header);
-            textView.setText(usuarioLogeado.getCorreo());
-            TextView homeName = (TextView) findViewById(R.id.home_name_header);
-            homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
-            TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
-            textViewPLaca.setText(placaDetectada != null ? placaDetectada : usuarioLogeado.getPlaca());
-            if (bundle != null && intent.getBooleanExtra("goEditar", false)) {
-                Intent intentEditar = new Intent(getApplicationContext(), EditarPerfil.class);
+            setUiData();
+            boolean goEditar = intent.getBooleanExtra("goEditar", false);
+            if (bundle != null && goEditar) {
+                Intent intent = new Intent(this, EditarPerfil.class);
+                Gson gsonObject = new Gson();
                 intent.putExtra("actualUser", gsonObject.toJson(usuarioLogeado));
-                startActivity(intentEditar);
-
+                intent.putExtra("fromRecovery", true);
+                startActivity(intent);
             }
         }
+        menuCreated = true;
         return true;
     }
 
@@ -178,6 +182,19 @@ public class Home extends AppCompatActivity
 
         if (id == R.id.nav_logout) {
             this.finishAffinity();
+        }
+
+        if (id == R.id.nav_user) {
+            Intent intent = new Intent(this, EditarPerfil.class);
+            Gson gsonObject = new Gson();
+            intent.putExtra("actualUser", gsonObject.toJson(usuarioLogeado));
+            startActivity(intent);
+        }
+        if(id == R.id.nav_history){
+            Intent intent = new Intent(this, HistoriaActivity.class);
+            Gson gsonObject = new Gson();
+            intent.putExtra("actualUser", gsonObject.toJson(usuarioLogeado));
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -307,7 +324,7 @@ public class Home extends AppCompatActivity
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    String result = OpenALPR.Factory.create(Home.this, ANDROID_DATA_DIR).recognizeWithCountryRegionNConfig("us", "", destination.getAbsolutePath(), openAlprConfFile, 10);
+                    final String result = OpenALPR.Factory.create(Home.this, ANDROID_DATA_DIR).recognizeWithCountryRegionNConfig("us", "", destination.getAbsolutePath(), openAlprConfFile, 10);
 
                     Log.d("OPEN ALPR", result);
 
@@ -322,6 +339,12 @@ public class Home extends AppCompatActivity
                                 } else {
                                     placaDetectada = results.getResults().get(0).getPlate();
                                     txPLaca.setText(placaDetectada);
+                                    Historia historia = new Historia();
+                                    historia.setPlaca(placaDetectada);
+                                    historia.setFecha(new Date());
+                                    historia.setPhothoPath(destination.getPath());
+                                    historia.setAccurace(results.getResults().get(0).getConfidence().toString());
+                                    addHistory(historia);
                                     Log.i("msG", "Plate: " + results.getResults().get(0).getPlate()
                                             // Trim confidence to two decimal places
                                             + " Confidence: " + String.format("%.2f", results.getResults().get(0).getConfidence()) + "%"
@@ -415,5 +438,43 @@ public class Home extends AppCompatActivity
         if (destination != null) {// Picasso does not seem to have an issue with a null value, but to be safe
             Picasso.with(Home.this).load(destination).fit().centerCrop().into(imagenPlaca);
         }
+        usuarioLogeado = getUser(usuarioLogeado.getUsuario());
+        if (menuCreated != null && menuCreated) {
+            setUiData();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public Usuario getUser(String usuario) {
+        TinyDB tinyDB = new TinyDB(this);
+        Usuario usuario1 = new Usuario();
+        usuario1.setUsuario(usuario);
+        List<Usuario> usuarios = (List<Usuario>) (List) tinyDB.getListObject("Aicar.Usuarios", Usuario.class);
+        if (usuarios != null && !usuarios.isEmpty()) {
+            return usuarios.get(usuarios.indexOf(usuario1));
+        } else return null;
+    }
+
+    private void setUiData() {
+        TextView textView = (TextView) findViewById(R.id.home_correo_header);
+        textView.setText(usuarioLogeado.getCorreo());
+        TextView homeName = (TextView) findViewById(R.id.home_name_header);
+        homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
+        TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
+        textViewPLaca.setText(placaDetectada != null ? placaDetectada : usuarioLogeado.getPlaca());
+    }
+
+    @SuppressWarnings("unchecked")
+    public void addHistory(Historia historia) {
+        TinyDB tinydb = new TinyDB(this);
+        List<Historia> historys = (List<Historia>) (List) tinydb.getListObject("Aicar.Usuario." + usuarioLogeado.getUsuario() + ".history", Historia.class);
+        if (historys != null && !historys.isEmpty()) {
+            historys.add(historia);
+        } else {
+            historys = new ArrayList<>();
+            historys.add(historia);
+        }
+        // save the task list to preference
+        tinydb.putListObject("Aicar.Usuario." + usuarioLogeado.getUsuario() + ".history", (ArrayList<Object>) (List) historys);
     }
 }

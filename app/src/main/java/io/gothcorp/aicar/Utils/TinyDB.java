@@ -95,7 +95,7 @@ public class TinyDB {
 
         this.DEFAULT_APP_IMAGEDATA_DIRECTORY = theFolder;
         String mFullPath = setupFullPath(theImageName);
-
+        Log.i("mFullPath",mFullPath);
         if (!mFullPath.equals("")) {
             lastImagePath = mFullPath;
             saveBitmap(mFullPath, theBitmap);

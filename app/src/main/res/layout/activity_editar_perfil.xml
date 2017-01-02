@@ -6,19 +6,226 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="io.gothcorp.aicar.ui.activities.EditarPerfil">
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/editar_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="gone" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+    <RelativeLayout
+        android:id="@+id/form_editar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/toolbarAppBar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    </android.support.design.widget.AppBarLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <ScrollView
+            android:id="@+id/registro_form"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbarAppBar">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp">
+
+                <ImageView
+                    android:id="@+id/fotoCarro"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/imagencarro"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:src="@drawable/foto_car_empty" />
+
+                <LinearLayout
+                    android:id="@+id/nombres_usuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fotoCarro"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+
+                    android:weightSum="2">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/nombres"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/prompt_nombres"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:nextFocusDown="@+id/apellidos" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/apellidos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/prompt_apellidos"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:nextFocusDown="@+id/correo" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lyCorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nombres_usuario">
+
+                    <EditText
+                        android:id="@+id/correo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_correo"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:nextFocusDown="@+id/cedula" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lyCedula"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lyCorreo">
+
+                    <EditText
+                        android:id="@+id/cedula"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_cedula"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:nextFocusDown="@+id/placa" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lyPlaca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lyCedula">
+
+                    <EditText
+                        android:id="@+id/placa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_placa"
+                        android:inputType="textCapCharacters"
+                        android:maxLength="6"
+                        android:maxLines="1"
+                        android:nextFocusDown="@+id/claveAnterior" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/lblPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lyPlaca"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:text="@string/cambio_title"
+                    android:textSize="15sp" />
+
+                <View
+                    android:id="@+id/dividerPass"
+                    style="@style/Divider"
+                    android:layout_below="@id/lblPass" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lyClaveAnterior"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dividerPass">
+
+                    <EditText
+                        android:id="@+id/claveAnterior"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/clave_anterior_lbl"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:nextFocusDown="@+id/nuevaClave" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/lyNuevaClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/lyClaveAnterior">
+
+                    <EditText
+                        android:id="@+id/nuevaClave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/nueva_clave_lbl"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:nextFocusDown="@+id/clave_confirmacion" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lyNuevaClave">
+
+                    <EditText
+                        android:id="@+id/clave_confirmacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/prompt_clave_confirmacion"
+                        android:imeActionId="@+id/btn_registrar"
+                        android:imeActionLabel="@string/btn_registrar"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1" />
+
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+        </ScrollView>
+
+
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
