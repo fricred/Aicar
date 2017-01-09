@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -46,6 +48,7 @@ import org.openalpr.model.Results;
 import org.openalpr.model.ResultsError;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,14 +58,16 @@ import java.util.Locale;
 import java.util.Map;
 
 import io.gothcorp.aicar.R;
-import io.gothcorp.aicar.Utils.ServiceAdapter;
+import io.gothcorp.aicar.adapters.ServiceAdapter;
+import io.gothcorp.aicar.Utils.StorageUtil;
 import io.gothcorp.aicar.Utils.TinyDB;
+import io.gothcorp.aicar.interfaces.RuntService;
 import io.gothcorp.aicar.model.Historia;
 import io.gothcorp.aicar.model.Servicio;
 import io.gothcorp.aicar.model.Usuario;
-
-import static io.gothcorp.aicar.R.id.placa;
-import static io.gothcorp.aicar.R.id.usuario;
+import io.gothcorp.aicar.model.runt.Persona;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,6 +88,7 @@ public class Home extends AppCompatActivity
     private TextView txPLaca;
     private String placaDetectada;
     private Boolean menuCreated;
+    private RuntService serviceRunt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +118,11 @@ public class Home extends AppCompatActivity
         gsonObject = new Gson();
         usuarioLogeado = bundle != null ? gsonObject.fromJson(bundle.getString("actualUser"), Usuario.class) : null;
         ANDROID_DATA_DIR = this.getApplicationInfo().dataDir;
-        Object placaDetectadaObj = bundle.get("placaDetectada");
-        placaDetectada = placaDetectadaObj != null ? placaDetectadaObj.toString() : null;
+        if (bundle != null) {
+            Object placaDetectadaObj = bundle.get("placaDetectada");
+            placaDetectada = placaDetectadaObj != null ? placaDetectadaObj.toString() : null;
+        }
+
         setUI();
 
     }
@@ -190,8 +199,14 @@ public class Home extends AppCompatActivity
             intent.putExtra("actualUser", gsonObject.toJson(usuarioLogeado));
             startActivity(intent);
         }
-        if(id == R.id.nav_history){
+        if (id == R.id.nav_history) {
             Intent intent = new Intent(this, HistoriaActivity.class);
+            Gson gsonObject = new Gson();
+            intent.putExtra("actualUser", gsonObject.toJson(usuarioLogeado));
+            startActivity(intent);
+        }
+        if (id == R.id.nav_ajustes) {
+            Intent intent = new Intent(this, SettingsActivity.class);
             Gson gsonObject = new Gson();
             intent.putExtra("actualUser", gsonObject.toJson(usuarioLogeado));
             startActivity(intent);
@@ -290,15 +305,19 @@ public class Home extends AppCompatActivity
                 R.drawable.ic_assignment_black_24dp,
                 R.drawable.ic_add_to_queue_black_24dp,};
 
-        Servicio a = new Servicio("Información Vehicular", "http:www.google.com", covers[0], 1);
+        Servicio a = new Servicio("Información Vehicular", "http://192.168.0.2:8080/WS-RUNT-war/", covers[0], "RUNT");
+        a.setRunt(true);
         servicioList.add(a);
-        Servicio b = new Servicio("Comparendos y multas", "http:www.google.com", covers[1], 1);
+        Servicio b = new Servicio("Comparendos y multas", "http://192.168.0.2:8080/WS-SIMIT-war/", covers[1], "SIMIT");
+        b.setSimit(true);
         servicioList.add(b);
-        Servicio c = new Servicio("Tramites Pendientes", "http:www.google.com", covers[2], 1);
+        Servicio c = new Servicio("Tramites Pendientes", "http://192.168.0.2:8080/WS-SIM-war/", covers[2], "SIM");
+        c.setSim(true);
         servicioList.add(c);
-        Servicio d = new Servicio("Adicionar servicio", "http:www.google.com", covers[3], 1);
+        Servicio d = new Servicio("Adicionar servicio", null, covers[3], "");
         servicioList.add(d);
-
+        adapter.setCedula(Integer.parseInt(usuarioLogeado.getNroCedula()));
+        adapter.setPlaca(usuarioLogeado.getPlaca());
         adapter.notifyDataSetChanged();
     }
 
@@ -335,7 +354,7 @@ public class Home extends AppCompatActivity
                             public void run() {
                                 if (results == null || results.getResults() == null || results.getResults().size() == 0) {
                                     Toast.makeText(Home.this, "It was not possible to detect the licence plate.", Toast.LENGTH_LONG).show();
-
+                                    boolean delete = destination.delete();
                                 } else {
                                     placaDetectada = results.getResults().get(0).getPlate();
                                     txPLaca.setText(placaDetectada);
@@ -418,11 +437,23 @@ public class Home extends AppCompatActivity
 
     public void takePicture() {
         // Use a folder to store all results
-        File folder = new File(Environment.getExternalStorageDirectory() + "/OpenALPR/");
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String storagePref = sharedPref.getString(SettingsActivity.KEY_STORAGE, "");
+        File folder = new File(Environment.getExternalStorageDirectory() + "/AiCar/");
+        StorageUtil storageUtil = new StorageUtil();
+        if (storagePref.equals("1") && storageUtil.isRemovebleSDCardMounted()) {
+            try {
+                folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/AiCar/");
+                Log.i("exgtstorage", storageUtil.getRemovebleSDCardPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         if (!folder.exists()) {
             folder.mkdir();
         }
-
         // Generate the path for the next photo
         String name = dateToString(new Date(), "yyyy-MM-dd-hh-mm-ss");
         destination = new File(folder, name + ".jpg");
@@ -462,6 +493,7 @@ public class Home extends AppCompatActivity
         homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
         TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
         textViewPLaca.setText(placaDetectada != null ? placaDetectada : usuarioLogeado.getPlaca());
+
     }
 
     @SuppressWarnings("unchecked")
@@ -477,4 +509,6 @@ public class Home extends AppCompatActivity
         // save the task list to preference
         tinydb.putListObject("Aicar.Usuario." + usuarioLogeado.getUsuario() + ".history", (ArrayList<Object>) (List) historys);
     }
+
+
 }

@@ -576,7 +576,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             handleSignInResult(result);
         }
         clientTwitter.onActivityResult(requestCode, resultCode, data);
-        showProgress(false);
         // Make sure that the loginButton hears the result from any
         // Activity that it triggered.
         //loginButtonTwitter.onActivityResult(requestCode, resultCode, data);
@@ -591,15 +590,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Usuario usuario = new Usuario();
             usuario.setGoogleId(acct.getId());
             initLoginTask(usuario);
-        } else {
-            showProgress(false);
         }
     }
 
     // [END handleSignInResult]
     // [START signIn]
     private void signIn() {
-        showProgress(true);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }

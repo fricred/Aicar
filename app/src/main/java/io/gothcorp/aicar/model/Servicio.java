@@ -7,18 +7,39 @@ package io.gothcorp.aicar.model;
 public class Servicio {
     private String name;
     private String url;
+    private boolean runt;
+    private boolean simit;
+    private boolean sim;
+    private boolean loaded;
     private int icon;
     private int alerts;
+    private String entidad;
 
     public Servicio() {
     }
 
 
-    public Servicio(String name, String url, int icon, int alerts) {
+    public Servicio(String name, String url, int icon, String entidad) {
         this.name = name;
         this.url = url;
         this.icon = icon;
-        this.alerts = alerts;
+        this.entidad = entidad;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
+    public boolean isRunt() {
+        return runt;
+    }
+
+    public void setRunt(boolean runt) {
+        this.runt = runt;
     }
 
     public String getName() {
@@ -47,6 +68,30 @@ public class Servicio {
 
     public int getAlerts() {
         return alerts;
+    }
+
+    public String getEntidad() {
+        return entidad;
+    }
+
+    public boolean isSimit() {
+        return simit;
+    }
+
+    public boolean isSim() {
+        return sim;
+    }
+
+    public void setSim(boolean sim) {
+        this.sim = sim;
+    }
+
+    public void setSimit(boolean simit) {
+        this.simit = simit;
+    }
+
+    public void setEntidad(String entidad) {
+        this.entidad = entidad;
     }
 
     public void setAlerts(int alerts) {

@@ -47,6 +47,14 @@
         <item name="actionBarStyle">@style/ActionBarStyleDark</item>
     </style>
 
+    <style name="AppThemeDarkActionBarLigth" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/ActionBarStyleDark</item>
+    </style>
+
 
     <style name="ActionBarStyleDark" parent="Widget.AppCompat.ActionBar">
         <item name="titleTextStyle">@style/ActionBarTitleTextStyleWhite</item>

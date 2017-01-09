@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_list_to"
+        android:orderInCategory="100"
+        android:title="Tarjetas de Operación" />
+    <item
+        android:id="@+id/action_dijin_list"
+        android:orderInCategory="101"
+        android:title="Certificaciones Dijin" />
+    <item
+        android:id="@+id/action_blindajes"
+        android:orderInCategory="101"
+        android:title="Blindajes" />
+    <item
+        android:id="@+id/action_cert_desintegracion"
+        android:orderInCategory="101"
+        android:title="Certificados Desintegración" />
+    <item
+        android:id="@+id/action_rtms"
+        android:orderInCategory="101"
+        android:title="RTMS" />
+    <item
+        android:id="@+id/action_dato_tecnico"
+        android:orderInCategory="101"
+        android:title="Datos Tecnicos" />
+    <item
+        android:id="@+id/action_polizas"
+        android:orderInCategory="101"
+        android:title="Polizas" />
+    <item
+        android:id="@+id/action_comp_polizas"
+        android:orderInCategory="101"
+        android:title="Compromisos Polizas" />
+    <item
+        android:id="@+id/action_solicitudes"
+        android:orderInCategory="101"
+        android:title="Solicitudes" />
+</menu>
