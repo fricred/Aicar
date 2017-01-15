@@ -189,7 +189,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
                                 public void onClick(View v) {
                                     Intent intent = new Intent(mContext, ServiceDetailActivity.class);
                                     Gson gsonObject = new Gson();
-                                    intent.putExtra("conductor", gsonObject.toJson(simVO));
+                                    intent.putExtra("simVO", gsonObject.toJson(simVO));
                                     intent.putExtra("simService", true);
                                     intent.putExtra("detailTitle", servicio.getName());
                                     mContext.startActivity(intent);
