@@ -50,7 +50,11 @@ import io.gothcorp.aicar.Utils.TinyDB;
 import io.gothcorp.aicar.model.Usuario;
 import retrofit2.Call;
 
-public class ActivitySocialSignUp extends AppCompatActivity  implements
+/**
+ * Clase encargada de gestionar la pantalla de registro atravez de redes sociales,
+ * consume las APIs publicas de facebook , twitter y google obteniendo la informacion necesaria para registrar un usuario en esta aplicaciòn
+ */
+public class ActivitySocialSignUp extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
     private CallbackManager callbackManager;
@@ -60,6 +64,7 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     private TwitterLoginButton loginButtonTwitter;
     List<Usuario> usuarios;
     private Context mContext;
+
     @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +109,7 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
 // options specified by gso.
-         mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
@@ -123,18 +128,16 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                 TwitterSession session = result.data;
                 // TODO: Remove toast and use the TwitterSession's userID
                 // with your app's user model
-                Twitter          twitter = Twitter.getInstance();
-                TwitterApiClient api     = twitter.core.getApiClient(session);
+                Twitter twitter = Twitter.getInstance();
+                TwitterApiClient api = twitter.core.getApiClient(session);
                 AccountService service = api.getAccountService();
-                Call<User> user    = service.verifyCredentials(true, true);
+                Call<User> user = service.verifyCredentials(true, true);
 
-                user.enqueue(new Callback<User>()
-                {
+                user.enqueue(new Callback<User>() {
                     @Override
-                    public void success(Result<User> userResult)
-                    {
+                    public void success(Result<User> userResult) {
                         Usuario usuario = new Usuario();
-                        usuario.setTwitterI(((Long)userResult.data.id).toString());
+                        usuario.setTwitterI(((Long) userResult.data.id).toString());
                         if (usuarios != null && !usuarios.isEmpty() && usuarios.contains(usuario)) {
                             Usuario userFound = usuarios.get(usuarios.indexOf(usuario));
                             Intent intent = new Intent(mContext, Home.class);
@@ -142,7 +145,7 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                             intent.putExtra("actualUser", gsonObject.toJson(userFound));
                             startActivity(intent);
                             Toast.makeText(mContext, "Usuario Encontrado", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             String name = userResult.data.name;
                             String email = userResult.data.email;
                             JSONObject object = new JSONObject();
@@ -160,12 +163,12 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                     }
 
                     @Override
-                    public void failure(TwitterException exc)
-                    {
+                    public void failure(TwitterException exc) {
                         Log.d("TwitterKit", "Verify Credentials Failure", exc);
                     }
                 });
             }
+
             @Override
             public void failure(TwitterException exception) {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
@@ -201,16 +204,14 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     }
 
 
-
-
     /**
      * Called when the user clicks the Send button
      */
     public void goRegistrarFb(View view) {
-        if(AccessToken.getCurrentAccessToken() == null) {
+        if (AccessToken.getCurrentAccessToken() == null) {
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
         }
-        if(AccessToken.getCurrentAccessToken()!= null) {
+        if (AccessToken.getCurrentAccessToken() != null) {
             GraphRequest request = GraphRequest.newMeRequest(
                     AccessToken.getCurrentAccessToken(),
                     new GraphRequest.GraphJSONObjectCallback() {
@@ -230,13 +231,17 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     }
 
 
-    /** Called when the user clicks the Send button */
+    /**
+     * Called when the user clicks the Send button
+     */
     public void goRegistrarWithEmail(View view) {
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent);
     }
 
-    /** Called when the user clicks the Send button */
+    /**
+     * Called when the user clicks the Send button
+     */
     @SuppressWarnings("unchecked")
     public void goRegistrarWithFacebook(JSONObject object) {
         Usuario usuario = new Usuario();
@@ -252,13 +257,16 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
             intent.putExtra("actualUser", gsonObject.toJson(userFound));
             startActivity(intent);
             Toast.makeText(this, "Usuario Encontrado", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Intent intent = new Intent(this, RegistroActivity.class);
             intent.putExtra("fbObject", object.toString());
             startActivity(intent);
         }
     }
-  /** Called when the user clicks the Login button */
+
+    /**
+     * Called when the user clicks the Login button
+     */
     public void goLogin(View view) {
         this.finish();
     }
@@ -279,12 +287,12 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
-           // showProgressDialog();
+            // showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
-                   // hideProgressDialog();
-                  //  handleSignInResult(googleSignInResult);
+                    // hideProgressDialog();
+                    //  handleSignInResult(googleSignInResult);
                 }
             });
         }
@@ -308,20 +316,20 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
                 intent.putExtra("actualUser", gsonObject.toJson(userFound));
                 startActivity(intent);
                 Toast.makeText(this, "Usuario Encontrado", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
 
                 JSONObject object = new JSONObject();
                 try {
-                    object.put("first_name",acct.getGivenName());
-                    object.put("last_name",acct.getFamilyName());
-                    object.put("email",acct.getEmail());
-                    object.put("googleId",acct.getId());
+                    object.put("first_name", acct.getGivenName());
+                    object.put("last_name", acct.getFamilyName());
+                    object.put("email", acct.getEmail());
+                    object.put("googleId", acct.getId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 Intent intent = new Intent(this, RegistroActivity.class);
-                intent.putExtra("fbObject",object.toString());
+                intent.putExtra("fbObject", object.toString());
                 startActivity(intent);
             }
 
@@ -376,7 +384,6 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     }
 
 
-
     private void updateUI(boolean signedIn) {
         /*if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
@@ -402,9 +409,6 @@ public class ActivitySocialSignUp extends AppCompatActivity  implements
     public void onConnected(Bundle bundle) {
         Log.d("Connected", "Connected");
     }
-
-
-
 
 
 }

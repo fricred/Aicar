@@ -67,7 +67,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeDarkActionBar" />
         <activity
-            android:name=".ui.activities.GalleryUtil"
+            android:name=".Utils.GalleryUtil"
             android:label="@string/title_galeria"
             android:theme="@style/AppThemeDarkActionBar" />
         <activity

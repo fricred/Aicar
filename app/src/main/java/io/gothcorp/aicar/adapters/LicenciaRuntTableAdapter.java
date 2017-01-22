@@ -10,8 +10,10 @@ import java.util.List;
 import de.codecrafters.tableview.TableDataAdapter;
 import io.gothcorp.aicar.model.runt.LicenciaRunt;
 
+
 /**
- * Created by dixfricred on 05/01/2017.
+ * Adaptador para la tabla de las  licencia del servicio RUNT.
+ * @author Jeisson Huerfano
  */
 
 public class LicenciaRuntTableAdapter extends TableDataAdapter<LicenciaRunt> {

@@ -1,4 +1,4 @@
-package io.gothcorp.aicar.ui.activities;
+package io.gothcorp.aicar.ui.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -21,8 +21,6 @@ import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import io.gothcorp.aicar.R;
 import io.gothcorp.aicar.adapters.simFragmentAdapters.TramiteSimTableAdapter;
 import io.gothcorp.aicar.adapters.simFragmentAdapters.VehiculosSimTableAdapter;
-import io.gothcorp.aicar.adapters.simitFragmentAdapters.LicenciaSimitTableAdapter;
-import io.gothcorp.aicar.adapters.simitFragmentAdapters.VehiculosSimitTableAdapter;
 import io.gothcorp.aicar.model.sim.Conductor;
 import io.gothcorp.aicar.model.sim.SimVO;
 import io.gothcorp.aicar.model.sim.Tramite;

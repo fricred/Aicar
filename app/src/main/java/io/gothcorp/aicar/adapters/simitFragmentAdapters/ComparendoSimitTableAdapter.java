@@ -13,11 +13,10 @@ import java.util.List;
 import de.codecrafters.tableview.TableDataAdapter;
 import io.gothcorp.aicar.model.simit.Comparendo;
 import io.gothcorp.aicar.model.simit.LicenciaSimit;
-
 /**
- * Created by dixfricred on 05/01/2017.
+ * Adaptador para la tabla de los comparendos del servicio SIMIT.
+ * @author Jeisson Huerfano
  */
-
 public class ComparendoSimitTableAdapter extends TableDataAdapter<Comparendo> {
     private static final int TEXT_SIZE = 11;
 

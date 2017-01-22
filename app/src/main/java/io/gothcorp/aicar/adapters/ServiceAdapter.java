@@ -40,10 +40,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by jearm_000 on 20/11/2016.
- */
 
+/**
+ * Adaptador para la configuración y visualizacion de los servicios que ofrece la aplicación.
+ * en el momento solo RUNT , SIMIT y SIM
+ * @author Jeisson Huerfano
+ */
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHolder> {
     private Context mContext;
     private List<Servicio> servicioList;

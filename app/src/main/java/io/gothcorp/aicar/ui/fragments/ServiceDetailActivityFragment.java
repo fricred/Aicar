@@ -1,4 +1,4 @@
-package io.gothcorp.aicar.ui.activities;
+package io.gothcorp.aicar.ui.fragments;
 
 import android.content.Intent;
 import android.content.res.Resources;

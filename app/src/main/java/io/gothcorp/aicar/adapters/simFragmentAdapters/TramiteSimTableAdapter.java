@@ -15,7 +15,8 @@ import io.gothcorp.aicar.model.sim.Tramite;
 import io.gothcorp.aicar.model.simit.Infraccion;
 
 /**
- * Created by dixfricred on 05/01/2017.
+ * Adaptador para la tabla de los tramites del servicio SIM.
+ * @author Jeisson Huerfano
  */
 
 public class TramiteSimTableAdapter extends TableDataAdapter<Tramite> {

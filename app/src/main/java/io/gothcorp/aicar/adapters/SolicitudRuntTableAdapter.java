@@ -14,8 +14,10 @@ import de.codecrafters.tableview.TableDataAdapter;
 import io.gothcorp.aicar.model.runt.LicenciaRunt;
 import io.gothcorp.aicar.model.runt.Solicitud;
 
+
 /**
- * Created by dixfricred on 05/01/2017.
+ * Adaptador para la tabla de las solicitudes de cada licencia del servicio RUNT.
+ * @author Jeisson Huerfano
  */
 
 public class SolicitudRuntTableAdapter extends TableDataAdapter<Solicitud> {

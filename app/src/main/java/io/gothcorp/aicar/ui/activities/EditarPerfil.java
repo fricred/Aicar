@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,10 +37,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.gothcorp.aicar.R;
+import io.gothcorp.aicar.Utils.GalleryUtil;
 import io.gothcorp.aicar.Utils.StringUtils;
 import io.gothcorp.aicar.Utils.TinyDB;
 import io.gothcorp.aicar.model.Usuario;
 
+/**
+ * Clase encargada de gestionar la pantalla de edicion del perfil, permite ademas de actualizar la informacion,
+ * cargar y recortar una foto y seleccionarla de perfil
+ */
 public class EditarPerfil extends AppCompatActivity {
     private EditText nombres;
     private EditText apellidos;

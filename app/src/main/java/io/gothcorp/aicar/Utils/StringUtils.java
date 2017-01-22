@@ -1,7 +1,8 @@
 package io.gothcorp.aicar.Utils;
 
 /**
- * Created by dixfricred on 27/12/2016.
+ * Esta clase ayuda con las validaciones de texto ,email , password , numeros , placa valida etc..
+ * @author Jeisson Huerfano
  */
 
 public class StringUtils {

@@ -33,6 +33,10 @@ import io.gothcorp.aicar.R;
 import io.gothcorp.aicar.Utils.TinyDB;
 import io.gothcorp.aicar.model.Usuario;
 
+/**
+ * Esta clase controla el registro de usuarios dentro de la aplicaciòn,
+ * realiza las validaciones necesarias y registra el usuario en la base de datos local
+ */
 public class RegistroActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "AiCar.usuarios";

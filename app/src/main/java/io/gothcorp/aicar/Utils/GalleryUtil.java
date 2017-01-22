@@ -1,4 +1,4 @@
-package io.gothcorp.aicar.ui.activities;
+package io.gothcorp.aicar.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,10 @@ import android.util.Log;
 
 import java.io.File;
 
+/**
+ * Esta clase ayuda con la gestion de lectura y recorte de fotos
+ * @author Jeisson Huerfano
+ */
 public class GalleryUtil extends Activity{
     private final static int RESULT_SELECT_IMAGE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;

@@ -14,9 +14,9 @@ import de.codecrafters.tableview.TableDataAdapter;
 import io.gothcorp.aicar.model.runt.DetalleLicencia;
 
 /**
- * Created by dixfricred on 06/01/2017.
+ * Adaptador para la tabla de los detalles de cada licencia del servicio RUNT.
+ * @author Jeisson Huerfano
  */
-
 public class DetalleLicenciaRuntTableAdapter extends TableDataAdapter<DetalleLicencia> {
 
     private static final int TEXT_SIZE = 11;

@@ -12,7 +12,8 @@ import io.gothcorp.aicar.model.simit.LicenciaSimit;
 import io.gothcorp.aicar.model.simit.Vehiculo;
 
 /**
- * Created by dixfricred on 05/01/2017.
+ * Adaptador para la tabla de los vehiculos del servicio SIMIT.
+ * @author Jeisson Huerfano
  */
 
 public class VehiculosSimitTableAdapter extends TableDataAdapter<Vehiculo> {

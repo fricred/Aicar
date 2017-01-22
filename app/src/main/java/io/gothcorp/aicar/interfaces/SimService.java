@@ -8,7 +8,10 @@ import retrofit2.http.Headers;
 import retrofit2.http.Path;
 
 /**
- * Created by dixfricred on 08/01/2017.
+ * Interfsz que define la forma en la cual se consulta el servicio web que ofrece SIM.
+ * Se configuran los encabezados de la solicitud para que se reciba un JSON, el metodo a usar y los parametros a enviar
+ *
+ * @author Jeisson Huerfano
  */
 
 public interface SimService {

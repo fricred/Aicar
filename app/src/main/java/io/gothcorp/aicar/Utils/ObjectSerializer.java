@@ -1,15 +1,20 @@
 package io.gothcorp.aicar.Utils;
 
 /**
- * Created by jearm_000 on 06/11/2016.
+ * Esta clase nos prmite serializar objetos para poder transportarlos, ej:hacia un archivo o base de datos o via internet
+ * @author Jeisson Huerfano
  */
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+/**
+ * Esta clase ayuda con la serializacion de las clases para poder transportarlas, a archivos, entre objetos, internet etc...
+ * @author Jeisson Huerfano
+ */
 
 public class ObjectSerializer {
 

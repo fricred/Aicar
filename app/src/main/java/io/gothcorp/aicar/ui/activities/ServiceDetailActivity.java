@@ -3,8 +3,6 @@ package io.gothcorp.aicar.ui.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,13 +12,18 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.google.gson.Gson;
-import com.twitter.sdk.android.tweetui.TweetActionBarView;
 
-import de.codecrafters.tableview.TableView;
-import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import io.gothcorp.aicar.R;
-import io.gothcorp.aicar.model.Usuario;
+import io.gothcorp.aicar.ui.fragments.ServiceDetailActivityFragment;
+import io.gothcorp.aicar.ui.fragments.SimFragment;
+import io.gothcorp.aicar.ui.fragments.SimitFragment;
 
+/**
+ * Clase encargada de mostrar el fragmento con los detalles de cada servicio
+ * que ha sido seleccionado por el usuario
+ *
+ *
+ */
 public class ServiceDetailActivity extends AppCompatActivity implements SimitFragment.OnFragmentInteractionListener, SimFragment.OnSimFragmentInteraction {
     Bundle bundle;
     Gson gsonObject;

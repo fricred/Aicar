@@ -22,6 +22,10 @@ import io.gothcorp.aicar.adapters.RVhistoryAdapter;
 import io.gothcorp.aicar.model.Historia;
 import io.gothcorp.aicar.model.Usuario;
 
+/**
+ * Actividad encargada de consultar y mostrar el historial de consultas rapidas que se ha realziado con la aplicacion ussando,
+ * detecccion automatica de placas
+ */
 public class HistoriaActivity extends AppCompatActivity {
     private RecyclerView rv;
     private List<Historia> list;

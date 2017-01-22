@@ -15,6 +15,7 @@ import android.util.Log;
 
 
 /**
+ * ayuda con la deteccion de almacenamiento para los dispositivos mobiles
  * @author ajeet
  *05-Dec-2014  2014
  *

@@ -1,4 +1,4 @@
-package io.gothcorp.aicar.ui.activities;
+package io.gothcorp.aicar.ui.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -15,8 +15,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,18 +22,12 @@ import java.util.List;
 
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.listeners.TableDataClickListener;
-import de.codecrafters.tableview.model.TableColumnDpWidthModel;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import io.gothcorp.aicar.R;
-import io.gothcorp.aicar.adapters.DetalleLicenciaRuntTableAdapter;
-import io.gothcorp.aicar.adapters.LicenciaRuntTableAdapter;
 import io.gothcorp.aicar.adapters.simitFragmentAdapters.ComparendoSimitTableAdapter;
 import io.gothcorp.aicar.adapters.simitFragmentAdapters.InfracionSimitTableAdapter;
 import io.gothcorp.aicar.adapters.simitFragmentAdapters.LicenciaSimitTableAdapter;
 import io.gothcorp.aicar.adapters.simitFragmentAdapters.VehiculosSimitTableAdapter;
-import io.gothcorp.aicar.model.runt.LicenciaRunt;
-import io.gothcorp.aicar.model.runt.Persona;
-import io.gothcorp.aicar.model.runt.RuntVO;
 import io.gothcorp.aicar.model.simit.Comparendo;
 import io.gothcorp.aicar.model.simit.Conductor;
 import io.gothcorp.aicar.model.simit.LicenciaSimit;

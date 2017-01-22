@@ -12,7 +12,8 @@ import io.gothcorp.aicar.model.runt.LicenciaRunt;
 import io.gothcorp.aicar.model.simit.LicenciaSimit;
 
 /**
- * Created by dixfricred on 05/01/2017.
+ * Adaptador para la tabla de las licencias del servicio SIMIT.
+ * @author Jeisson Huerfano
  */
 
 public class LicenciaSimitTableAdapter extends TableDataAdapter<LicenciaSimit> {

@@ -69,6 +69,11 @@ import io.gothcorp.aicar.model.runt.Persona;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Actividad principal de la aplicacion, se encarga de gestionar el consumo de los diferentes webservices
+ * Gestiona la navegacion entre las diferentes pantallas.
+ * Gestiona la deteccion automatica de placas.
+ */
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     boolean doubleBackToExitPressedOnce = false;

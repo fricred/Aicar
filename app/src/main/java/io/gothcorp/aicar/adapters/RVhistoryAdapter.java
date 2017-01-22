@@ -25,8 +25,11 @@ import io.gothcorp.aicar.R;
 import io.gothcorp.aicar.model.Historia;
 import io.gothcorp.aicar.ui.activities.Home;
 
+
 /**
- * Created by dixfricred on 31/12/2016.
+ * Adaptador para la lista que muestra la historia de vehiculos consultados, configura la vista de la placa, foto y fecha de captura
+ *
+ * @author Jeisson Huerfano
  */
 
 public class RVhistoryAdapter extends RecyclerView.Adapter<RVhistoryAdapter.HistoryViewHolder> {
@@ -51,7 +54,7 @@ public class RVhistoryAdapter extends RecyclerView.Adapter<RVhistoryAdapter.Hist
     @Override
     public void onBindViewHolder(HistoryViewHolder holder, int i) {
         holder.cardTitle.setText(lista.get(i).getPlaca());
-        holder.accurace.setText("Confianza : " + lista.get(i).getAccurace()+" %");
+        holder.accurace.setText("Confianza : " + lista.get(i).getAccurace() + " %");
 
 
         // Create an instance of SimpleDateFormat used for formatting

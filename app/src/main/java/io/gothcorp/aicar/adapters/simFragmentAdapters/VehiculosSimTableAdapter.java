@@ -11,7 +11,8 @@ import de.codecrafters.tableview.TableDataAdapter;
 import io.gothcorp.aicar.model.sim.Vehiculo;
 
 /**
- * Created by dixfricred on 05/01/2017.
+ * Adaptador para la tabla de los vehiculos del servicio SIM.
+ * @author Jeisson Huerfano
  */
 
 public class VehiculosSimTableAdapter extends TableDataAdapter<Vehiculo> {
