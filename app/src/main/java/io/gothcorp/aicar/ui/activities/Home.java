@@ -310,13 +310,13 @@ public class Home extends AppCompatActivity
                 R.drawable.ic_assignment_black_24dp,
                 R.drawable.ic_add_to_queue_black_24dp,};
 
-        Servicio a = new Servicio("Información Vehicular", "http://192.168.0.2:8080/WS-RUNT-war/", covers[0], "RUNT");
+        Servicio a = new Servicio("Información Vehicular", "http://sbuilders.co:8080/runtws/", covers[0], "RUNT");
         a.setRunt(true);
         servicioList.add(a);
-        Servicio b = new Servicio("Comparendos y multas", "http://192.168.0.2:8080/WS-SIMIT-war/", covers[1], "SIMIT");
+        Servicio b = new Servicio("Comparendos y multas", "https://simit-demo.com/WS-SIMIT-war/", covers[1], "SIMIT");
         b.setSimit(true);
         servicioList.add(b);
-        Servicio c = new Servicio("Tramites Pendientes", "http://192.168.0.2:8080/WS-SIM-war/", covers[2], "SIM");
+        Servicio c = new Servicio("Tramites Pendientes", "https://simit-demo.com//WS-SIM-war/", covers[2], "SIM");
         c.setSim(true);
         servicioList.add(c);
         Servicio d = new Servicio("Adicionar servicio", null, covers[3], "");
@@ -492,13 +492,16 @@ public class Home extends AppCompatActivity
     }
 
     private void setUiData() {
-        TextView textView = (TextView) findViewById(R.id.home_correo_header);
-        textView.setText(usuarioLogeado.getCorreo());
-        TextView homeName = (TextView) findViewById(R.id.home_name_header);
-        homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
-        TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
-        textViewPLaca.setText(placaDetectada != null ? placaDetectada : usuarioLogeado.getPlaca());
-
+        if (usuarioLogeado != null) {
+            TextView textView = (TextView) findViewById(R.id.home_correo_header);
+            textView.setText(usuarioLogeado.getCorreo() != null ? usuarioLogeado.getCorreo() : "nno correo");
+            TextView homeName = (TextView) findViewById(R.id.home_name_header);
+            if (usuarioLogeado.getNombres() != null) {
+                homeName.setText(usuarioLogeado.getNombres() + " " + usuarioLogeado.getApellidos());
+            }
+            TextView textViewPLaca = (TextView) findViewById(R.id.txtPlaca);
+            textViewPLaca.setText(placaDetectada != null ? placaDetectada : usuarioLogeado.getPlaca() != null ? usuarioLogeado.getPlaca() : "");
+        }
     }
 
     @SuppressWarnings("unchecked")

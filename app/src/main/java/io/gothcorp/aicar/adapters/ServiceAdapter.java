@@ -18,11 +18,14 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import io.gothcorp.aicar.R;
+import io.gothcorp.aicar.Utils.DateTypeDeserializer;
 import io.gothcorp.aicar.interfaces.RuntService;
 import io.gothcorp.aicar.interfaces.SimService;
 import io.gothcorp.aicar.interfaces.SimitService;
@@ -83,13 +86,15 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Servicio servicio = servicioList.get(position);
-        if (servicio.getUrl() != null) {
 
+        if (servicio.getUrl() != null) {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(Date.class, new DateTypeDeserializer());
             if (servicio.isRunt()) {
                 //NetworkBasic Runt
                 Retrofit retrofitRunt = new Retrofit.Builder()
                         .baseUrl(servicio.getUrl())
-                        .addConverterFactory(GsonConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
                         .build();
                 final RuntService serviceRunt = retrofitRunt.create(RuntService.class);
 
@@ -124,7 +129,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
                     public void onFailure(Call<List<RuntVO>> call, Throwable t) {
                         // something went completely south (like no internet connection)
                         holder.gifImageView.setImageResource(R.drawable.ic_error_black_24dp);
-                        Log.d("Error", t.getMessage() != null ? t.getMessage() : "no Message");
+                        Log.d("ErrorRunt", t.getMessage() != null ? t.getMessage() : "no Message");
+                        Log.d("ErrorRunt", t.getCause().toString());
                     }
                 });
 
@@ -144,7 +150,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
                             // tasks available
                             final Conductor conductor = response.body();
                             holder.gifImageView.setImageResource(R.drawable.ic_done_black_24dp);
-                            Log.i("lista SImit", conductor.toString());
                             holder.thumbnail.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
